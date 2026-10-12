@@ -1103,7 +1103,7 @@ $('#roleTag').hidden = true;
 setJoin('loading');
 Promise.race([initCaps(), new Promise(r => setTimeout(r, 5000))]).then(() => {
   S.ready = true;
-  $('#roleTag').hidden = !S.isOwner;
+  $('#roleTag').hidden = true;
   updateRoleTag();
   route();
 });
