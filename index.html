@@ -338,8 +338,7 @@ const ls = {
 };
 let uid = ls.get('kardex-uid');
 if (!uid) { uid = 'u' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36); ls.set('kardex-uid', uid); }
-let owner = ls.get('kardex-owner') === '1';
-if (/profe=/.test(location.hash)) { owner = location.hash.indexOf('profe=' + SECRET) >= 0; ls.set('kardex-owner', owner ? '1' : '0'); }
+const owner = location.hash.indexOf('profe=' + SECRET) >= 0; // solo con el enlace de profesora, sin recordar nada
 
 const store = {}, lastWrite = {}, watchers = [];
 const url = p => DB + '/' + p + '.json';
