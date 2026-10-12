@@ -1,0 +1,1113 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Kardex de Tacones</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+[hidden]:not([hidden=until-found i]){display:none!important}
+:root {
+  --bg: #fbf5fa; --surface: #ffffff; --surface2: #f6ecf6; --ink: #3a2848; --muted: #76628a; --line: #e8d8e8;
+  --accent: #b93a70; --accent-ink: #ffffff; --rose: #f4b8cc; --lilac: #d8c8f4; --mint: #c6ecdc; --peach: #ffd8c2; --sky: #c4e2f7; --butter: #fff0b8;
+  --chip-ink: #3a2848; --in-bg: #e8f7f0; --out-bg: #ffece1; --bal-bg: #efe8fb; --blank-bg: #ffffff; --blank-line: #c4a2d6;
+  --hot-bg: #ffe2ee; --ok-bg: #d9f4e7; --good: #217a58; --bad: #b3303f;
+  --shadow: 0 14px 34px -16px rgba(120, 50, 120, .45);
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body: 'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-num: 'DM Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1d1425; --surface: #2a1e36; --surface2: #34263f; --ink: #f7e8f2; --muted: #bba6c8; --line: #4a3858;
+    --accent: #f08db4; --accent-ink: #3a1630; --in-bg: #223a33; --out-bg: #44302f; --bal-bg: #35294c;
+    --blank-bg: #241a2e; --blank-line: #8d6ba6; --hot-bg: #4a2a3d; --ok-bg: #234a3a; --good: #6fd3a9; --bad: #ff8a98;
+    --shadow: 0 14px 34px -16px rgba(0, 0, 0, .7); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1d1425; --surface: #2a1e36; --surface2: #34263f; --ink: #f7e8f2; --muted: #bba6c8; --line: #4a3858;
+  --accent: #f08db4; --accent-ink: #3a1630; --in-bg: #223a33; --out-bg: #44302f; --bal-bg: #35294c;
+  --blank-bg: #241a2e; --blank-line: #8d6ba6; --hot-bg: #4a2a3d; --ok-bg: #234a3a; --good: #6fd3a9; --bad: #ff8a98;
+  --shadow: 0 14px 34px -16px rgba(0, 0, 0, .7); color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin:0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.5; }
+img{max-width:100%}
+button, input { font: inherit; color: inherit; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.1; margin: 0; text-wrap: balance; }
+p { margin: 0; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 10px 16px; background: var(--bg); border-bottom: 1px solid var(--line); }
+.brand { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; }
+.brand svg { width: 38px; height: 26px; }
+.role { border: 0; cursor: pointer; font-weight: 800; font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; padding: 8px 14px; border-radius: 999px; background: var(--lilac); color: #3a2848; }
+.wrap { max-width: 1100px; margin-inline: auto; padding-inline: 16px; padding-block: 22px 56px; }
+.eyebrow { font-size: .78rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.center { text-align: center; }
+.btn { border: 2px solid var(--accent); background: transparent; color: var(--accent); padding: 11px 20px; border-radius: 999px; font-weight: 800; cursor: pointer; min-height: 46px; }
+.btn.primary { background: var(--accent); color: var(--accent-ink); }
+.btn.ghost { border-color: var(--line); color: var(--ink); }
+.btn.big { font-size: 1.15rem; padding: 14px 30px; min-height: 54px; }
+.btn:disabled { opacity: .55; cursor: not-allowed; }
+.row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.row.center { justify-content: center; }
+.hero { display: grid; grid-template-columns: 1.2fr 1fr; gap: 28px; align-items: center; }
+.hero h1 { font-size: clamp(2.3rem, 7vw, 4rem); margin-top: 8px; }
+.hero h1 em { font-style: italic; color: var(--accent); font-weight: 500; }
+.lead { margin-top: 14px; font-size: 1.1rem; color: var(--muted); max-width: 52ch; }
+.center .lead { margin-inline: auto; }
+#jForm, #jIn { margin-top: 22px; display: grid; gap: 8px; }
+#jForm label { font-weight: 800; font-size: .9rem; }
+#name { flex: 1 1 200px; min-width: 0; padding: 11px 16px; border-radius: 999px; border: 2px solid var(--line); background: var(--surface); min-height: 46px; }
+#jIn p { padding: 14px 18px; border-radius: 18px; background: var(--mint); color: #24493a; font-weight: 700; }
+#btnPractice { margin-top: 14px; }
+.hero-art { display: grid; place-items: center; aspect-ratio: 1 / 1; max-width: 100%; border-radius: 50%; background: var(--lilac); position: relative; }
+.hero-art::after { content: ""; position: absolute; inset: 10%; border-radius: 50%; background: var(--rose); opacity: .55; }
+.hero-art svg { width: 78%; height: auto; position: relative; z-index: 1; }
+.levels { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 34px; }
+.lvl { border-radius: 24px; padding: 20px; background: var(--in-bg); }
+.lvl.two { background: var(--bal-bg); }
+.lvl h2 { font-size: 1.4rem; margin-top: 4px; }
+.lvl p { margin-top: 8px; color: var(--muted); }
+.lvl .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+.tag { font-size: .8rem; font-weight: 800; padding: 4px 10px; border-radius: 999px; background: var(--surface); }
+.note { margin-top: 18px; color: var(--muted); font-size: .92rem; max-width: 70ch; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: 22px; box-shadow: var(--shadow); }
+.panel h2 { font-size: clamp(1.7rem, 4.4vw, 2.6rem); margin-top: 6px; }
+.big { font-size: clamp(2rem, 6vw, 3.2rem); margin-top: 6px; }
+.bigtime { font-family: var(--font-num); font-size: clamp(3.6rem, 15vw, 8rem); font-weight: 500; line-height: 1; margin-top: 18px; font-variant-numeric: tabular-nums; color: var(--accent); }
+.bigcap { margin-top: 6px; color: var(--muted); font-weight: 800; letter-spacing: .08em; text-transform: uppercase; font-size: .8rem; }
+.quote { font-family: var(--font-display); font-style: italic; font-size: 1.3rem; margin: 20px auto 0; max-width: 36ch; color: var(--accent); }
+.story { margin: 16px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.story li { display: grid; grid-template-columns: 62px minmax(0, 1fr); gap: 10px; align-items: baseline; }
+.story b { font-family: var(--font-num); font-weight: 500; font-size: .85rem; color: var(--accent); }
+.rules { margin-top: 18px; padding: 14px 16px; border-radius: 18px; background: var(--surface2); display: grid; gap: 6px; }
+.rules p { font-size: .96rem; }
+.result-actions { margin-top: 22px; }
+.stats { margin: 20px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.stats div { border-radius: 18px; padding: 12px 16px; background: var(--surface2); text-align: left; }
+.stats dt { font-size: .74rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.stats dd { margin: 0; font-family: var(--font-num); font-size: 1.6rem; font-variant-numeric: tabular-nums; }
+.hostgrid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+.qrcard { width: min(100%, 300px); margin: 16px auto; padding: 16px; border-radius: 22px; background: #ffffff; box-shadow: var(--shadow); }
+#qrbox img, #qrbox canvas { display: block; width: 100%; height: auto; }
+#qrbox canvas { display: none; }
+.urltxt { text-align: center; font-family: var(--font-num); font-size: .82rem; color: var(--muted); overflow-wrap: anywhere; }
+.rank-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.rank-head h3 { font-size: 1.5rem; }
+.rank-head p { color: var(--muted); font-weight: 700; }
+.plist { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.pl { display: flex; gap: 8px; align-items: center; padding: 6px 8px 6px 14px; border-radius: 999px; background: var(--surface2); max-width: 100%; }
+.pl b { font-weight: 800; overflow-wrap: anywhere; }
+.st { font-weight: 800; font-size: .72rem; padding: 2px 9px; border-radius: 999px; background: var(--surface); color: var(--ink); white-space: nowrap; }
+.st.final { background: var(--mint); color: #24493a; }
+.st.fuera1, .st.fuera2 { background: var(--peach); color: #5a3320; }
+.st.jugando1, .st.jugando2, .st.paso1 { background: var(--sky); color: #24425a; }
+.st.lobby { background: var(--butter); color: #4d3d10; }
+.mini { border: 1px solid var(--line); background: transparent; border-radius: 999px; padding: 2px 10px; font-size: .72rem; font-weight: 800; color: var(--muted); cursor: pointer; }
+.empty-list { padding: 16px 18px; border-radius: 18px; background: var(--surface2); color: var(--muted); margin-top: 14px; }
+.podium { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; align-items: end; margin: 24px auto 0; max-width: 760px; }
+.pod { display: flex; flex-direction: column; justify-content: flex-end; min-width: 0; }
+.pname { font-family: var(--font-display); font-weight: 700; font-size: clamp(1rem, 3.6vw, 2rem); text-align: center; padding: 8px 4px 10px; overflow-wrap: anywhere; line-height: 1.1; }
+.step { display: grid; place-items: center; border-radius: 20px 20px 0 0; font-family: var(--font-display); font-weight: 700; font-size: clamp(2rem, 7vw, 3.6rem); color: #3a2848; }
+.pod.p1 .step { height: 190px; background: var(--butter); }
+.pod.p2 .step { height: 140px; background: var(--lilac); }
+.pod.p3 .step { height: 105px; background: var(--peach); }
+.reveal .pod { animation: rise .7s both; }
+.reveal .pod.p3 { animation-delay: .2s; }
+.reveal .pod.p2 { animation-delay: 1s; }
+.reveal .pod.p1 { animation-delay: 1.9s; }
+@keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+.hud { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 10px 14px; min-width: 0; }
+.stat small { display: block; font-size: .7rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.stat strong { display: block; font-family: var(--font-num); font-weight: 500; font-size: 1.45rem; line-height: 1.25; font-variant-numeric: tabular-nums; }
+.stat.warn strong { color: var(--bad); }
+.hearts { display: flex; gap: 4px; align-items: center; height: 36px; }
+.heart { width: 26px; height: 26px; }
+.heart.on { fill: var(--accent); }
+.heart.off { fill: none; stroke: var(--muted); stroke-width: 1.6; opacity: .6; }
+.bar { height: 8px; border-radius: 999px; background: var(--surface2); overflow: hidden; margin-top: 12px; }
+.bar i { display: block; height: 100%; width: 0; background: var(--accent); border-radius: 999px; transition: width .25s; }
+details.enun { margin-top: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 10px 16px; }
+details.enun summary { cursor: pointer; font-weight: 800; }
+details.enun .story { margin-bottom: 8px; }
+.method { margin-top: 12px; }
+.method span { display: inline-block; padding: 3px 18px; background: var(--rose); color: #3a2848; font-weight: 800; letter-spacing: .06em; }
+.kwrap { margin-top: 8px; overflow-x: auto; border: 1px solid var(--line); border-radius: 20px; background: var(--surface); }
+table.kardex { border-collapse: separate; border-spacing: 0; width: 100%; min-width: 900px; font-family: var(--font-num); font-size: .86rem; }
+.kardex th, .kardex td { padding: 6px; text-align: right; border-bottom: 1px solid var(--line); font-weight: 400; }
+.kardex thead th { font-family: var(--font-body); font-weight: 800; font-size: .74rem; letter-spacing: .05em; text-transform: uppercase; text-align: center; color: var(--ink); }
+.kardex thead th.grp { background: var(--rose); color: #3a2848; font-size: .8rem; }
+.kardex thead tr:nth-child(2) th { font-size: .66rem; color: var(--muted); }
+.kardex .g-e { background: var(--in-bg); }
+.kardex .g-s { background: var(--out-bg); }
+.kardex .g-d { background: var(--bal-bg); }
+.kardex thead th.grp.g-e, .kardex thead th.grp.g-s, .kardex thead th.grp.g-d { background: var(--rose); }
+.kardex td.first, .kardex th.first { border-left: 2px solid var(--line); }
+.kardex td.date { width: 70px; text-align: right; font-family: var(--font-body); font-weight: 700; white-space: nowrap; }
+.kardex td.concept { min-width: 200px; text-align: left; font-family: var(--font-body); font-size: .86rem; }
+.kardex tr.new:not(:first-child) td { border-top: 2px solid var(--line); }
+.kardex tr.prod td { background: var(--hot-bg); text-align: center; font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; padding: 8px; border-top: 2px solid var(--line); }
+.kardex tbody tr:last-child td { border-bottom: 0; }
+.slot { width: 100%; min-width: 74px; height: 32px; border: 2px dashed var(--blank-line); border-radius: 10px; background: var(--blank-bg); color: var(--ink); font-family: var(--font-num); font-size: .86rem; cursor: pointer; padding: 0 6px; }
+.slot.hot { border-style: solid; border-color: var(--accent); background: var(--hot-bg); }
+.slot.ok { border: 2px solid var(--good); background: var(--ok-bg); cursor: default; font-weight: 500; }
+.slot.bad { animation: shake .38s; border-color: var(--bad); }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+.tray { position: sticky; bottom: 0; z-index: 20; margin-top: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 12px 14px calc(12px + env(safe-area-inset-bottom, 0px)); box-shadow: var(--shadow); }
+.tray-head { display: flex; justify-content: space-between; gap: 10px; font-size: .85rem; color: var(--muted); font-weight: 700; margin-bottom: 8px; }
+#chips { display: flex; flex-wrap: wrap; gap: 8px; max-height: 34vh; overflow-y: auto; padding: 2px; }
+.chip { touch-action: none; user-select: none; -webkit-user-select: none; cursor: grab; border: 2px solid transparent; border-radius: 999px; padding: 6px 14px; min-height: 38px; font-family: var(--font-num); font-weight: 500; font-size: .95rem; color: var(--chip-ink); font-variant-numeric: tabular-nums; }
+.chip.c0 { background: var(--rose); } .chip.c1 { background: var(--lilac); } .chip.c2 { background: var(--mint); }
+.chip.c3 { background: var(--peach); } .chip.c4 { background: var(--sky); }
+.chip.sel { border-color: var(--accent); box-shadow: 0 0 0 3px var(--hot-bg); }
+.chip.lifting { opacity: .35; }
+.chip.ghost { position: fixed; z-index: 100; pointer-events: none; transform: translate(-50%, -50%) scale(1.1); box-shadow: var(--shadow); margin: 0; }
+.toast { position: fixed; left: 50%; top: calc(env(safe-area-inset-top, 0px) + 66px); transform: translateX(-50%); z-index: 90; max-width: min(92vw, 520px); padding: 10px 18px; border-radius: 16px; font-weight: 700; font-size: .94rem; background: var(--ink); color: var(--bg); box-shadow: var(--shadow); text-align: center; }
+.toast.bad { background: var(--bad); color: #fff; }
+.toast.good { background: var(--good); color: #fff; }
+:root[data-theme="dark"] .toast.bad, :root[data-theme="dark"] .toast.good { color: #1d1425; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .toast.bad, :root:not([data-theme="light"]) .toast.good { color: #1d1425; } }
+@media (max-width: 760px) {
+  .hero { grid-template-columns: minmax(0, 1fr); }
+  .hero-art { max-width: 260px; margin-inline: auto; order: -1; }
+  .levels { grid-template-columns: minmax(0, 1fr); }
+  .hostgrid { grid-template-columns: minmax(0, 1fr); }
+  .hud { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .story li { grid-template-columns: 54px minmax(0, 1fr); }
+  .pod.p1 .step { height: 150px; } .pod.p2 .step { height: 110px; } .pod.p3 .step { height: 84px; }
+}
+@media (prefers-reduced-motion: reduce) { .slot.bad, .reveal .pod { animation: none; } .bar i { transition: none; } }
+</style>
+</head><body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="heel" viewBox="0 0 180 120">
+    <path d="M12 97 C10 88 22 84 40 82 C70 78 94 66 112 48 C124 36 140 28 154 30 C160 40 158 56 150 66 C132 70 112 76 92 82 C66 90 36 100 12 97 Z" style="fill:var(--accent)"/>
+    <path d="M136 70 L154 63 L150 102 L146 102 Z" style="fill:var(--ink)"/>
+    <path d="M60 82 C 80 72 96 60 112 46" style="fill:none;stroke:var(--butter);stroke-width:5;stroke-linecap:round"/>
+    <circle cx="46" cy="82" r="5" style="fill:var(--butter)"/>
+  </symbol>
+</svg>
+<header class="top">
+  <div class="brand"><svg aria-hidden="true"><use href="#heel"/></svg><span>Kardex de Tacones</span></div>
+  <button class="role" id="roleTag" type="button" hidden>Ver como estudiante</button>
+</header>
+<main class="wrap">
+  <section id="s-join" hidden>
+    <div class="hero">
+      <div>
+        <p class="eyebrow">Contabilidad de costos · Kardex</p>
+        <h1>Kardex de <em>Tacones</em></h1>
+        <p class="lead">Completa el Kardex de una fábrica de tacones arrastrando cada valor a su casilla. Todas empiezan al mismo tiempo cuando la profe da la señal.</p>
+        <div id="jForm" hidden>
+          <label for="name">Tu nombre</label>
+          <div class="row">
+            <input id="name" maxlength="30" autocomplete="name" placeholder="Nombre y apellido">
+            <button id="btnJoin" class="btn primary" type="button">Unirme al juego</button>
+          </div>
+        </div>
+        <div id="jIn" hidden><p id="jInMsg"></p></div>
+        <p class="note" id="jNote" hidden></p>
+        <button id="btnPractice" class="btn ghost" type="button">Practicar sin puntaje</button>
+      </div>
+      <div class="hero-art"><svg viewBox="0 0 180 120" role="img" aria-label="Zapato de tacón"><use href="#heel"/></svg></div>
+    </div>
+    <div class="levels">
+      <article class="lvl">
+        <p class="eyebrow">Nivel 1</p>
+        <h2>PEPS contra el reloj</h2>
+        <p>Cuatro minutos para todas al mismo tiempo. Pasa quien complete el Kardex de las suelas.</p>
+        <div class="tags"><span class="tag">4:00 minutos</span><span class="tag">8 casillas</span></div>
+      </article>
+      <article class="lvl two">
+        <p class="eyebrow">Nivel 2</p>
+        <h2>La carrera al podio</h2>
+        <p>El mismo ejemplo continúa, con devolución incluida. Tienes dos vidas y llegan al podio las tres primeras en terminar.</p>
+        <div class="tags"><span class="tag">2 vidas</span><span class="tag">9 casillas</span><span class="tag">Puestos 1, 2 y 3</span></div>
+      </article>
+    </div>
+  </section>
+  <section id="s-wait" hidden>
+    <div class="panel center">
+      <p class="eyebrow" id="wEyebrow"></p>
+      <h2 class="big" id="wTitle"></h2>
+      <p class="lead" id="wText"></p>
+      <div class="bigtime" id="wBig" hidden></div>
+      <p class="bigcap" id="wCap" hidden></p>
+      <p class="quote" id="wQuote" hidden></p>
+      <div class="row center result-actions" id="wActions"></div>
+    </div>
+  </section>
+  <section id="s-host" hidden>
+    <div class="hostgrid">
+      <div class="panel">
+        <p class="eyebrow" id="hoEyebrow"></p>
+        <h2 id="hoTitle"></h2>
+        <p class="lead" id="hoText"></p>
+        <div class="bigtime" id="hoBig" hidden></div>
+        <p class="bigcap" id="hoCap" hidden></p>
+        <dl class="stats" id="hoStats"></dl>
+        <div class="row result-actions" id="hoActions"></div>
+      </div>
+      <div class="panel">
+        <div id="sideQr">
+          <p class="eyebrow">Escanea para unirte</p>
+          <div class="qrcard"><div id="qrbox"></div></div>
+          <p class="urltxt" id="hoUrl"></p>
+          <div class="row center result-actions"><button id="btnQr" class="btn ghost" type="button" hidden>Descargar QR</button></div>
+        </div>
+        <div id="sideArr" hidden>
+          <p class="eyebrow">Llegadas al podio</p>
+          <div id="hoPodium"></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel" style="margin-top:16px">
+      <div class="rank-head"><h3>Participantes</h3><p id="hoCount"></p></div>
+      <ul class="plist" id="hoPlayers"></ul>
+      <div class="row result-actions"><button id="btnHostPractice" class="btn ghost" type="button">Probar el Kardex sin afectar la partida</button></div>
+    </div>
+  </section>
+  <section id="s-brief" hidden>
+    <div class="panel">
+      <p class="eyebrow" id="bLevel"></p>
+      <h2 id="bTitle"></h2>
+      <p class="lead" id="bIntro"></p>
+      <ul class="story" id="bStory"></ul>
+      <div class="rules" id="bRules"></div>
+      <div class="row result-actions"><button id="btnGo" class="btn primary" type="button">Empezar</button><button id="btnBack" class="btn ghost" type="button">Volver</button></div>
+    </div>
+  </section>
+  <section id="s-play" hidden>
+    <div class="hud">
+      <div class="stat"><small>Nivel</small><strong id="hLevel">1</strong></div>
+      <div class="stat" id="hTimeBox"><small id="hTimeLabel">Tiempo</small><strong id="hTime">04:00</strong></div>
+      <div class="stat"><small id="hLivesLabel">Errores</small><div id="hLives"></div></div>
+      <div class="stat"><small>Casillas</small><strong id="hCells">0/16</strong></div>
+    </div>
+    <div class="bar" aria-hidden="true"><i id="hBar"></i></div>
+    <details class="enun" id="enun"><summary>Enunciado</summary><ul class="story" id="pStory"></ul></details>
+    <p class="method"><span>PEPS</span></p>
+    <div class="kwrap" id="kwrap">
+      <table class="kardex">
+        <thead>
+          <tr><th rowspan="2">Fecha</th><th rowspan="2">Concepto</th><th colspan="3" class="grp g-e first">Entradas</th><th colspan="3" class="grp g-s first">Salidas</th><th colspan="3" class="grp g-d first">Saldos</th></tr>
+          <tr><th class="g-e first">Cantidad</th><th class="g-e">Costo unitario</th><th class="g-e">Total</th><th class="g-s first">Cantidad</th><th class="g-s">Costo unitario</th><th class="g-s">Total</th><th class="g-d first">Cantidad</th><th class="g-d">Costo unitario</th><th class="g-d">Total</th></tr>
+        </thead>
+        <tbody id="kbody"></tbody>
+      </table>
+    </div>
+    <div class="tray">
+      <div class="tray-head"><span>Arrastra una ficha a su casilla, o toca la ficha y luego la casilla</span><span id="trayLeft"></span></div>
+      <div id="chips"></div>
+    </div>
+  </section>
+  <section id="s-result" hidden>
+    <div class="panel">
+      <p class="eyebrow" id="rEyebrow"></p>
+      <h2 class="big" id="rTitle"></h2>
+      <p class="lead" id="rText"></p>
+      <dl class="stats" id="rStats"></dl>
+      <div class="row result-actions" id="rActions"></div>
+    </div>
+  </section>
+  <section id="s-final" hidden>
+    <div class="panel center">
+      <p class="eyebrow">Fin del juego</p>
+      <h2 class="big" id="fiTitle">El podio</h2>
+      <div id="fiPodium"></div>
+      <p class="lead" id="fiText"></p>
+      <p class="quote" id="fiQuote" hidden></p>
+      <div class="row center result-actions" id="fiActions"></div>
+    </div>
+  </section>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<div class="chip ghost" id="ghost" hidden></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+/* Conexión en vivo con Firebase Realtime Database (reemplaza la base de datos de Claude) */
+(function () {
+'use strict';
+const DB = 'https://kardexplay-bb687-default-rtdb.firebaseio.com';
+const SECRET = 'tacones2026'; // clave del enlace de profesora: ...#profe=tacones2026
+const ls = {
+  get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+};
+let uid = ls.get('kardex-uid');
+if (!uid) { uid = 'u' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36); ls.set('kardex-uid', uid); }
+let owner = ls.get('kardex-owner') === '1';
+if (/profe=/.test(location.hash)) { owner = location.hash.indexOf('profe=' + SECRET) >= 0; ls.set('kardex-owner', owner ? '1' : '0'); }
+
+const store = {}, lastWrite = {}, watchers = [];
+const url = p => DB + '/' + p + '.json';
+async function rj(p, opt) {
+  const r = await fetch(url(p), opt);
+  if (!r.ok) throw new Error('http ' + r.status);
+  return r.json();
+}
+const snapDoc = v => ({ exists: v !== null && v !== undefined, data: () => v });
+const snapCol = v => ({ docs: Object.keys(v || {}).map(k => ({ id: k, data: () => v[k] })) });
+function emit(w) {
+  const v = store[w.path];
+  if (v === undefined) return;
+  const s = JSON.stringify(v);
+  if (s !== w.last) { w.last = s; try { w.cb(w.make(v)); } catch (e) {} }
+}
+function emitAll() { watchers.forEach(emit); }
+function watch(path, make, cb) {
+  const w = { path, make, cb, last: undefined };
+  watchers.push(w);
+  const run = async () => {
+    try {
+      const v = await rj(path);
+      if (Date.now() - (lastWrite[path] || 0) > 2500) { store[path] = v; emitAll(); }
+    } catch (e) {}
+    setTimeout(run, 1200);
+  };
+  run();
+  return () => { const i = watchers.indexOf(w); if (i >= 0) watchers.splice(i, 1); };
+}
+function setLocal(path, data) {
+  const now = Date.now(), parts = path.split('/');
+  store[path] = data; lastWrite[path] = now;
+  if (parts.length === 2) {
+    lastWrite[parts[0]] = now;
+    const col = store[parts[0]];
+    if (col !== undefined) {
+      const c = Object.assign({}, col || {});
+      if (data === null) delete c[parts[1]]; else c[parts[1]] = data;
+      store[parts[0]] = Object.keys(c).length ? c : null;
+    }
+  }
+  emitAll();
+}
+const jbody = d => ({ method: 'PUT', body: JSON.stringify(d) });
+
+function doc(path) {
+  const id = path.split('/').pop();
+  return {
+    onSnapshot(cb) { return watch(path, snapDoc, cb); },
+    async get() { return snapDoc(await rj(path)); },
+    async set(data) { setLocal(path, data); await rj(path, jbody(data)); },
+    async update(data) {
+      setLocal(path, Object.assign({}, store[path] || {}, data));
+      await rj(path, { method: 'PATCH', body: JSON.stringify(data) });
+    },
+    async delete() {
+      setLocal(path, null);
+      await rj(path, { method: 'DELETE' });
+      if (path.indexOf('podium/') === 0) { try { await rj('claims/' + id, { method: 'DELETE' }); } catch (e) {} }
+    },
+    async acquire(o) {
+      const holder = (o && o.holder) || uid, ttl = (o && o.ttlMs) || 30000, now = Date.now();
+      try {
+        await rj('claims/' + id + '/' + holder, jbody({ t: now }));
+        const all = (await rj('claims/' + id)) || {};
+        const live = Object.keys(all).filter(k => all[k] && all[k].t > Date.now() - ttl);
+        live.sort((a, b) => (all[a].t - all[b].t) || (a < b ? -1 : 1));
+        return { acquired: live[0] === holder };
+      } catch (e) { return { acquired: true }; }
+    }
+  };
+}
+const db = {
+  doc,
+  collection(name) { return { onSnapshot(cb) { return watch(name, snapCol, cb); } }; }
+};
+const user = { async id() { return uid; }, async isOwner() { return owner; }, async can() { return true; } };
+const downloads = {
+  async save(o) {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(o.data); a.download = o.filename;
+    document.body.append(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  }
+};
+window.claude = { use: async n => (n === 'user' ? user : n === 'db' ? db : n === 'downloads' ? downloads : null) };
+})();
+</script>
+<script>
+(function () {
+'use strict';
+const SHARE_URL = location.href.split('#')[0];
+const LEAD_MS = 6000;
+const L1_SECONDS = 240;
+
+const B = v => ({ b: v });
+const LEVELS = [
+  {
+    nombre: 'Nivel 1', titulo: 'PEPS contra el reloj', tiempo: L1_SECONDS, vidas: 0,
+    intro: 'Tacones Lía S.A.S. lleva el Kardex de sus suelas (en pares) por el método PEPS. En cada fila, el saldo muestra solo el lote que se compró o se usó.',
+    enunciado: [
+      ['SI', 'Suelas: 40 pares a $25.000.'],
+      ['jun-05', 'Compra a Salinas Ltda #1204: 60 pares de suelas a $26.000.'],
+      ['jun-08', 'Requisición 021 a producción: 50 pares de suelas. Quedan 50 pares en inventario.']
+    ],
+    reglas: [
+      'Tienes 4:00 minutos, los mismos para todas y todos. Completa las 8 casillas para pasar al nivel 2.',
+      'Cada error te quita 5 segundos de tu tiempo.',
+      'En PEPS salen primero las unidades más antiguas, con el costo de su lote.',
+      'Cuando un lote se agota, su saldo queda en 0.'
+    ],
+    decoys: [40, 1350000, 1040000],
+    lines: [
+      { p: 'Suelas (pares)' },
+      { k: 'si', c: 'SI', d: [40, 25000, 1000000] },
+      { k: 'compra', f: 'jun-05', c: 'Compra Salinas Ltda #1204', e: [60, 26000, B(1560000)], d: [60, 26000, B(1560000)], h: 'Total = cantidad × costo unitario. El saldo de una compra es el lote nuevo.' },
+      { k: 'req', f: 'jun-08', c: 'Requisición 021', s: [40, 25000, B(1000000)], d: [B(0), 0, 0], h: 'PEPS: primero sale el lote más antiguo, a su costo. Si se agota, el saldo es 0.' },
+      { k: 'req', s: [B(10), 26000, B(260000)], d: [B(50), 26000, B(1300000)], h: 'Lo que falta de la requisición sale del siguiente lote. El saldo es lo que queda de ese lote.' },
+    ]
+  },
+  {
+    nombre: 'Nivel 2', titulo: 'La carrera al podio', tiempo: 0, vidas: 2,
+    intro: 'La segunda quincena de junio sigue en el mismo Kardex por PEPS. Los saldos iniciales son los lotes con que cerró la primera parte.',
+    enunciado: [
+      ['SI', 'Suelas: 50 pares a $26.000.'],
+      ['jun-15', 'Compra a Salinas Ltda #1250: 40 pares de suelas a $27.000.'],
+      ['jun-18', 'Devolución a Salinas Ltda #1250: 10 pares de suelas (salen al costo de esa compra).'],
+      ['jun-25', 'Requisición 022: 70 pares de suelas. Quedan 10 pares en inventario.']
+    ],
+    reglas: [
+      'Tienes 2 vidas. Cada error quita una, y sin vidas quedas fuera.',
+      'Gana quien complete primero las 9 casillas. Las tres primeras llegan al podio.',
+      'La devolución sale al costo de la compra y reduce ese lote.',
+      'Si te piden dos filas en una requisición, la primera agota el lote más antiguo.'
+    ],
+    decoys: [40, 1250000, 580000, 280000],
+    lines: [
+      { p: 'Suelas (pares)' },
+      { k: 'si', c: 'SI', d: [50, 26000, 1300000] },
+      { k: 'compra', f: 'jun-15', c: 'Compra Salinas Ltda #1250', e: [40, 27000, 1080000], d: [40, 27000, B(1080000)], h: 'El saldo de la compra es el lote nuevo: cantidad × costo unitario.' },
+      { k: 'dev', f: 'jun-18', c: 'Devolución Salinas Ltda #1250', s: [10, 27000, B(270000)], d: [B(30), 27000, B(810000)], h: 'La devolución sale al costo de la compra y reduce ese lote: 40 − 10.' },
+      { k: 'req', f: 'jun-25', c: 'Requisición 022', s: [50, 26000, B(1300000)], d: [B(0), 0, 0], h: 'PEPS: primero se agota el lote más antiguo (el saldo inicial).' },
+      { k: 'req', s: [20, 27000, B(540000)], d: [B(10), 27000, B(270000)], h: 'Los 20 pares que faltan salen del lote de $27.000. El saldo es lo que le queda.' },
+    ]
+  }
+];
+
+const GROUPS = { e: 'Entradas', s: 'Salidas', d: 'Saldos' };
+const FIELDS = ['Cantidad', 'Costo unitario', 'Total'];
+const STATUS = {
+  lobby: 'En sala', jugando1: 'Jugando nivel 1', paso1: 'Pasó al nivel 2', fuera1: 'Fuera (nivel 1)',
+  jugando2: 'Jugando nivel 2', fuera2: 'Fuera (nivel 2)', final: 'Terminó'
+};
+const PHRASES = [
+  'Equivocarse también es aprender: cada error de hoy es un acierto de mañana.',
+  'Los números se vuelven amigos cuando les dedicas tiempo. ¡Sigue practicando!',
+  'No importa la velocidad, importa seguir avanzando. ¡Lo hiciste muy bien!',
+  'La mejor contadora no es la que nunca falla, sino la que nunca deja de intentar.',
+  'Hoy practicaste algo que mañana te saldrá con los ojos cerrados.',
+  'Tu esfuerzo ya cuenta. ¡Gracias por jugar con tanta energía!'
+];
+
+const $ = (s, r) => (r || document).querySelector(s);
+const fmt = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+const money = n => '$ ' + fmt(n);
+const chipText = v => (v >= 1000 ? money(v) : fmt(v));
+const cellText = (k, v) => (k === 0 ? fmt(v) : money(v));
+const mmss = s => { s = Math.max(0, Math.round(s)); return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); };
+const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
+const hashStr = s => { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0; return h; };
+const lsName = v => { try { if (v != null) localStorage.setItem('kardex-nombre', v); return localStorage.getItem('kardex-nombre') || ''; } catch (e) { return ''; } };
+
+const S = {
+  ready: false, db: null, dl: null, uid: null, isOwner: false, canWrite: null, asPlayer: false,
+  G: { round: 0, phase: 'lobby' }, P: null, players: [], podium: {},
+  practice: false, mode: 'real', lvl: 0, playing: false, playRound: 0, claiming: false,
+  errors: 0, pen: 0, lives: 0, filled: 0, slotCount: 0, startedAt: 0, deadline: 0, timerId: 0,
+  sel: null, slots: {}, chips: [], waitKey: '', hostKey: '', finalKey: '', cur: ''
+};
+const isHost = () => S.isOwner && !S.asPlayer;
+
+const SCREENS = ['join', 'wait', 'host', 'brief', 'play', 'result', 'final'];
+function show(name) {
+  SCREENS.forEach(n => { $('#s-' + n).hidden = n !== name; });
+  if (S.cur !== name) { window.scrollTo(0, 0); S.cur = name; }
+  if (name !== 'wait') S.waitKey = '';
+  if (name !== 'host') S.hostKey = '';
+  if (name !== 'final') S.finalKey = '';
+}
+let toastTimer = 0;
+function toast(msg, kind) {
+  const t = $('#toast');
+  t.textContent = msg; t.className = 'toast ' + (kind || ''); t.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.hidden = true; }, 3400);
+}
+function addBtn(box, label, cls, fn, confirm) {
+  const b = el('button', 'btn ' + cls, label); b.type = 'button';
+  let armed = false, t = 0;
+  b.addEventListener('click', () => {
+    if (confirm && !armed) {
+      armed = true; b.textContent = '¿Seguro? Toca otra vez';
+      clearTimeout(t); t = setTimeout(() => { armed = false; b.textContent = label; }, 3500);
+      return;
+    }
+    fn();
+  });
+  box.append(b); return b;
+}
+function stat(dt, dd) { const d = el('div'); d.append(el('dt', '', dt), el('dd', '', dd)); return d; }
+
+let saving = Promise.resolve();
+function savePlayer() {
+  if (!S.db || !S.uid || !S.P) return saving;
+  S.P.ts = Date.now();
+  const data = Object.assign({}, S.P);
+  saving = saving.then(() => S.db.doc('ranking/' + S.uid).set(data)).catch(() => toast('No se pudo guardar tu avance. Revisa tu conexión.', 'bad'));
+  return saving;
+}
+
+function route() {
+  if (!S.ready || S.practice || S.playing) return;
+  if (!S.db) { setJoin('nologin'); return; }
+  if (isHost()) renderHost(); else renderPlayer();
+}
+function onGameChange() {
+  const g = S.G;
+  if (S.practice && !isHost() && S.P && S.P.round === g.round && g.phase !== 'lobby') { S.practice = false; stopPlay(); }
+  if (S.playing && S.mode === 'real' && (g.round !== S.playRound || g.phase === 'finished')) stopPlay();
+  route();
+}
+function stopPlay() { S.playing = false; clearInterval(S.timerId); S.sel = null; clearHot(); $('#ghost').hidden = true; }
+
+function setJoin(mode) {
+  show('join');
+  $('#jForm').hidden = mode !== 'form';
+  $('#jIn').hidden = mode !== 'in';
+  const note = $('#jNote');
+  note.hidden = !(mode === 'nologin' || mode === 'loading');
+  if (mode === 'nologin') note.textContent = 'No se pudo conectar con la sala. Revisa tu internet y recarga la página. Mientras tanto puedes practicar.';
+  if (mode === 'loading') note.textContent = 'Conectando con la sala…';
+  if (mode === 'in') $('#jInMsg').textContent = (S.P && S.P.name ? S.P.name + ', ya estás dentro. ' : 'Ya estás dentro. ') + 'Espera a que la profe inicie el nivel 1.';
+  if (mode === 'form' && !$('#name').value) $('#name').value = lsName();
+}
+function setWait(o) {
+  show('wait');
+  if (S.waitKey !== o.key) {
+    S.waitKey = o.key;
+    $('#wEyebrow').textContent = o.eyebrow || ''; $('#wTitle').textContent = o.title || ''; $('#wText').textContent = o.text || '';
+    const q = $('#wQuote'); q.hidden = !o.quote; q.textContent = o.quote || '';
+    const c = $('#wCap'); c.hidden = !o.cap; c.textContent = o.cap || '';
+    const act = $('#wActions'); act.textContent = '';
+    (o.actions || []).forEach(a => addBtn(act, a.label, a.cls || 'ghost', a.fn));
+  }
+  const big = $('#wBig'); big.hidden = o.big == null; if (o.big != null) big.textContent = o.big;
+}
+const practiceAct = [{ label: 'Practicar mientras tanto', cls: 'ghost', fn: () => startPractice() }];
+const phrase = () => PHRASES[hashStr(S.uid || 'x') % PHRASES.length];
+
+function thanks(level) {
+  setWait({
+    key: 'thanks' + level, eyebrow: level === 1 ? 'Nivel 1 terminado' : 'Nivel 2 terminado', title: '¡Gracias por participar!',
+    text: level === 1 ? 'No alcanzaste a completar el Kardex a tiempo, así que no sigues en la competencia. Lo importante es que lo intentaste.' : 'Te quedaste sin vidas en el nivel 2. Llegar hasta aquí ya es un gran logro.',
+    quote: phrase(), actions: practiceAct
+  });
+}
+function forfeit(status) { S.P = Object.assign({}, S.P, { status }); savePlayer(); }
+
+function renderPlayer() {
+  const g = S.G, P = S.P, now = Date.now();
+  if (!S.uid) { setJoin('nologin'); return; }
+  const joined = P && P.round === g.round;
+  if (g.phase === 'lobby') { setJoin(joined ? 'in' : 'form'); return; }
+  if (!joined) {
+    setWait({ key: 'late', eyebrow: 'Partida en curso', title: 'La partida ya empezó', text: 'Esta ronda ya no admite más participantes. Mientras esperas la siguiente, puedes practicar.', actions: practiceAct });
+    return;
+  }
+  if (g.phase === 'finished') { renderFinal(); return; }
+  if (g.phase === 'l1') playerL1(P, g, now); else if (g.phase === 'l2') playerL2(P, g, now);
+}
+function playerL1(P, g, now) {
+  const st = P.status;
+  if (st === 'fuera1') { thanks(1); return; }
+  if (st === 'paso1') {
+    if (now < g.endAt) setWait({ key: 'l1done', eyebrow: 'Nivel 1', title: '¡Completaste el Kardex!', text: 'Esperamos a que termine el tiempo de todas. Después la profe inicia el nivel 2.', big: mmss((g.endAt - now) / 1000), cap: 'Tiempo que falta' });
+    else setWait({ key: 'l1pass', eyebrow: 'Nivel 1 terminado', title: '¡Pasaste al nivel 2!', text: 'Prepárate: tendrás 2 vidas y el mismo Kardex continúa. Espera la señal de la profe.' });
+    return;
+  }
+  if (st === 'jugando1') { forfeit('fuera1'); thanks(1); return; }
+  if (now < g.startAt) { setWait({ key: 'cd1', eyebrow: 'Nivel 1 · PEPS', title: '¡Prepárate!', text: 'El Kardex aparece cuando el contador llegue a cero. Tendrás 4:00 minutos.', big: String(Math.max(1, Math.ceil((g.startAt - now) / 1000))), cap: 'Empieza en' }); return; }
+  if (now < g.endAt) { startReal(0); return; }
+  forfeit('fuera1'); thanks(1);
+}
+function playerL2(P, g, now) {
+  const st = P.status;
+  if (st === 'fuera2') { thanks(2); return; }
+  if (st === 'final') { afterL2(P); return; }
+  if (st === 'jugando2') { forfeit('fuera2'); thanks(2); return; }
+  if (st !== 'paso1') { thanks(1); return; }
+  if (now < g.startAt) { setWait({ key: 'cd2', eyebrow: 'Nivel 2 · La carrera', title: '¡Prepárate!', text: 'Tienes 2 vidas. Las tres primeras en terminar llegan al podio.', big: String(Math.max(1, Math.ceil((g.startAt - now) / 1000))), cap: 'Empieza en' }); return; }
+  startReal(1);
+}
+function afterL2(P) {
+  if (S.claiming) { setWait({ key: 'claim', eyebrow: 'Nivel 2', title: 'Registrando tu llegada…', text: 'Un momento, estamos confirmando tu puesto.' }); return; }
+  const n = P.place || 0;
+  if (n > 0) setWait({ key: 'pl' + n, eyebrow: 'Nivel 2 terminado', title: '¡Llegaste en el puesto ' + n + '!', text: 'Estás en el podio. La profe revelará el resultado final en la pantalla del salón.' });
+  else setWait({ key: 'nopod', eyebrow: 'Nivel 2 terminado', title: '¡Terminaste el Kardex!', text: 'Esta vez no alcanzaste el podio, pero lo resolviste completo. La profe revelará el resultado final.' });
+}
+
+$('#btnJoin').addEventListener('click', async () => {
+  const name = $('#name').value.trim();
+  if (name.length < 2) { toast('Escribe tu nombre para unirte.', 'bad'); $('#name').focus(); return; }
+  if (!S.db || !S.uid) { toast('No hay conexión con la sala. Recarga la página.', 'bad'); return; }
+  const data = { name, round: S.G.round, status: 'lobby', a1: 0, e1: 0, t1: 0, e2: 0, l2: 0, t2: 0, place: 0, ts: Date.now() };
+  try { await S.db.doc('ranking/' + S.uid).set(data); S.P = data; lsName(name); route(); }
+  catch (e) { toast('No pudimos unirte. Cierra la página y ábrela otra vez.', 'bad'); }
+});
+$('#name').addEventListener('keydown', e => { if (e.key === 'Enter') $('#btnJoin').click(); });
+
+function renderPodium(box, reveal) {
+  box.textContent = '';
+  const wrap = el('div', 'podium' + (reveal ? ' reveal' : ''));
+  [['p2', 2], ['p1', 1], ['p3', 3]].forEach(([id, n]) => {
+    const d = S.podium[id], pod = el('div', 'pod p' + n);
+    pod.append(el('div', 'pname', d && d.name ? d.name : '—'), el('div', 'step', String(n)));
+    wrap.append(pod);
+  });
+  box.append(wrap);
+}
+const podiumSig = () => ['p1', 'p2', 'p3'].map(k => (S.podium[k] && S.podium[k].name) || '').join('|');
+
+function renderFinal() {
+  show('final');
+  const P = S.P, place = P && P.place ? P.place : 0;
+  let text = '', quote = '';
+  if (!isHost() && P) {
+    if (P.status === 'final' && place > 0) text = '¡Quedaste en el puesto ' + place + '! Felicitaciones.';
+    else if (P.status === 'final') text = 'Terminaste el Kardex completo. ¡Qué buen trabajo!';
+    else { text = '¡Gracias por participar!'; quote = phrase(); }
+  } else if (isHost()) text = 'Estas son las tres primeras personas que completaron el Kardex.';
+  const key = [podiumSig(), text, isHost(), S.G.round].join('~');
+  if (key === S.finalKey) return;
+  S.finalKey = key;
+  renderPodium($('#fiPodium'), true);
+  $('#fiText').textContent = text;
+  const q = $('#fiQuote'); q.hidden = !quote; q.textContent = quote;
+  const act = $('#fiActions'); act.textContent = '';
+  if (isHost()) addBtn(act, 'Nueva partida', 'primary', newGame, true);
+  else addBtn(act, 'Practicar', 'ghost', () => startPractice());
+}
+
+let qrDone = false;
+function buildQr() {
+  $('#hoUrl').textContent = SHARE_URL;
+  $('#btnQr').hidden = !S.dl;
+  if (qrDone) return;
+  const box = $('#qrbox');
+  if (!window.QRCode) { box.textContent = 'No se pudo cargar el generador de QR. Comparte el enlace de abajo.'; return; }
+  try {
+    new window.QRCode(box, { text: SHARE_URL, width: 512, height: 512, colorDark: '#3a2848', colorLight: '#ffffff', correctLevel: window.QRCode.CorrectLevel.M });
+    qrDone = true;
+  } catch (e) { box.textContent = 'No se pudo generar el QR. Comparte el enlace de abajo.'; }
+}
+$('#btnQr').addEventListener('click', () => {
+  const cv = $('#qrbox canvas');
+  if (!cv || !S.dl) { toast('Descarga no disponible aquí. Toma una captura de pantalla del código.'); return; }
+  cv.toBlob(b => {
+    if (!b) { toast('No se pudo preparar la imagen.', 'bad'); return; }
+    S.dl.save({ filename: 'qr-kardex-de-tacones.png', data: b }).catch(err => { if (!err || err.code !== 'declined') toast('No se pudo descargar. Toma una captura del código.', 'bad'); });
+  }, 'image/png');
+});
+
+async function hostWrite(fn, okMsg) {
+  try { await fn(); if (okMsg) toast(okMsg, 'good'); }
+  catch (e) { toast('No se pudo actualizar el juego. Revisa tu conexión y que hayas entrado con el enlace de profesora.', 'bad'); }
+}
+const gameRef = () => S.db.doc('game/state');
+function startL1() { const t = Date.now(); hostWrite(() => gameRef().set({ round: S.G.round, phase: 'l1', startAt: t + LEAD_MS, endAt: t + LEAD_MS + L1_SECONDS * 1000, ts: t })); }
+function closeL1() { hostWrite(() => gameRef().update({ endAt: Date.now(), ts: Date.now() })); }
+function startL2() { const t = Date.now(); hostWrite(() => gameRef().set({ round: S.G.round, phase: 'l2', startAt: t + LEAD_MS, ts: t })); }
+function finishGame() { hostWrite(() => gameRef().update({ phase: 'finished', ts: Date.now() })); }
+function newGame() {
+  hostWrite(async () => {
+    const dels = S.players.map(p => S.db.doc('ranking/' + p.id).delete());
+    ['p1', 'p2', 'p3'].forEach(k => dels.push(S.db.doc('podium/' + k).delete()));
+    await Promise.all(dels);
+    await gameRef().set({ round: S.G.round + 1, phase: 'lobby', ts: Date.now() });
+  }, 'Nueva partida lista. Pide que escaneen el QR otra vez.');
+}
+function reactivate(p) {
+  const g = S.G, now = Date.now();
+  let to = '';
+  if (p.status === 'fuera1' && (g.phase === 'lobby' || (g.phase === 'l1' && now < g.endAt))) to = 'lobby';
+  if (p.status === 'fuera2' && g.phase === 'l2') to = 'paso1';
+  if (!to) { toast('Ya no se puede reactivar en esta etapa.'); return; }
+  hostWrite(() => S.db.doc('ranking/' + p.id).update({ status: to }), 'Participante reactivada.');
+}
+
+function renderHost() {
+  const g = S.G, now = Date.now();
+  if (g.phase === 'finished') { renderFinal(); return; }
+  show('host');
+  buildQr();
+  const pl = S.players.filter(p => p.round === g.round && p.name).sort((a, b) => a.name.localeCompare(b.name, 'es'));
+  const cnt = k => pl.filter(p => k.includes(p.status)).length;
+  const n = pl.length;
+  let stage = 'lobby';
+  if (g.phase === 'l1') stage = now < g.startAt ? 'cd1' : now < g.endAt ? 'run1' : 'end1';
+  if (g.phase === 'l2') stage = now < g.startAt ? 'cd2' : 'run2';
+  const sig = pl.map(p => p.id + ':' + p.status + ':' + (p.place || 0)).join(',') + '|' + podiumSig();
+  const key = stage + '|' + sig;
+  if (key !== S.hostKey) {
+    S.hostKey = key;
+    const eb = $('#hoEyebrow'), ti = $('#hoTitle'), tx = $('#hoText'), st = $('#hoStats'), ac = $('#hoActions');
+    st.textContent = ''; ac.textContent = '';
+    $('#sideQr').hidden = stage !== 'lobby';
+    $('#sideArr').hidden = !(stage === 'cd2' || stage === 'run2');
+    if (!$('#sideArr').hidden) renderPodium($('#hoPodium'), false);
+    if (stage === 'lobby') {
+      eb.textContent = 'Sala de espera'; ti.textContent = 'Cuando todas estén dentro, inicia';
+      tx.textContent = 'Muestra el código en el proyector. Cada estudiante lo abre con el enlace y escribe su nombre.';
+      st.append(stat('En la sala', String(n)));
+      const b = addBtn(ac, 'Iniciar nivel 1', 'primary big', startL1); b.disabled = n === 0;
+    } else if (stage === 'cd1' || stage === 'run1') {
+      eb.textContent = 'Nivel 1 · PEPS'; ti.textContent = stage === 'cd1' ? 'Todas arrancan juntas en…' : 'Nivel 1 en juego';
+      tx.textContent = stage === 'cd1' ? 'El Kardex aparece en cada pantalla al mismo tiempo.' : 'Pasan al nivel 2 quienes completen el Kardex antes de que termine el tiempo.';
+      st.append(stat('Ya completaron', cnt(['paso1']) + ' de ' + n), stat('Jugando', String(cnt(['lobby', 'jugando1']))));
+      if (stage === 'run1') addBtn(ac, 'Cerrar nivel 1 ahora', 'ghost', closeL1, true);
+    } else if (stage === 'end1') {
+      const pass = cnt(['paso1']);
+      eb.textContent = 'Nivel 1 terminado'; ti.textContent = 'Se acabó el tiempo';
+      tx.textContent = pass > 0 ? 'Quienes no completaron el Kardex ya vieron su mensaje de agradecimiento. Cuando quieras, inicia el nivel 2.' : 'Nadie completó el Kardex. Puedes empezar una partida nueva.';
+      st.append(stat('Pasan al nivel 2', String(pass)), stat('Quedan fuera', String(n - pass)));
+      if (pass > 0) addBtn(ac, 'Iniciar nivel 2', 'primary big', startL2);
+      addBtn(ac, 'Nueva partida', 'ghost', newGame, true);
+    } else {
+      eb.textContent = 'Nivel 2 · La carrera'; ti.textContent = stage === 'cd2' ? 'Todas arrancan juntas en…' : 'Nivel 2 en juego';
+      tx.textContent = 'La primera en completar el Kardex queda en el puesto 1, la segunda en el 2 y la tercera en el 3.';
+      st.append(stat('Compitiendo', String(cnt(['paso1', 'jugando2']))), stat('Terminaron', String(cnt(['final']))), stat('Sin vidas', String(cnt(['fuera2']))));
+      addBtn(ac, 'Finalizar juego', 'primary big', finishGame, true);
+    }
+    $('#hoCount').textContent = n + (n === 1 ? ' participante' : ' participantes');
+    const list = $('#hoPlayers'); list.textContent = '';
+    if (!n) list.append(el('li', 'empty-list', 'Todavía no se ha unido nadie.'));
+    pl.forEach(p => {
+      const li = el('li', 'pl'); li.append(el('b', '', p.name), el('span', 'st ' + p.status, STATUS[p.status] || p.status));
+      const can = (p.status === 'fuera1' && (g.phase === 'lobby' || (g.phase === 'l1' && now < g.endAt))) || (p.status === 'fuera2' && g.phase === 'l2');
+      if (can) { const m = el('button', 'mini', 'Reactivar'); m.type = 'button'; m.addEventListener('click', () => reactivate(p)); li.append(m); }
+      list.append(li);
+    });
+  }
+  const big = $('#hoBig'), cap = $('#hoCap');
+  if (stage === 'cd1' || stage === 'cd2') { big.hidden = false; big.textContent = String(Math.max(1, Math.ceil((g.startAt - now) / 1000))); cap.hidden = true; }
+  else if (stage === 'run1') { big.hidden = false; big.textContent = mmss((g.endAt - now) / 1000); cap.hidden = false; cap.textContent = 'Tiempo restante'; }
+  else if (stage === 'run2') { big.hidden = false; big.textContent = mmss((now - g.startAt) / 1000); cap.hidden = false; cap.textContent = 'Tiempo transcurrido'; }
+  else { big.hidden = true; cap.hidden = true; }
+}
+
+function startPractice() { S.practice = true; S.mode = 'practice'; showBrief(0); }
+function exitPractice() { S.practice = false; S.mode = 'real'; stopPlay(); S.waitKey = ''; S.hostKey = ''; route(); }
+$('#btnPractice').addEventListener('click', startPractice);
+$('#btnHostPractice').addEventListener('click', startPractice);
+
+function fillStory(ul, lvl) {
+  ul.textContent = '';
+  lvl.enunciado.forEach(([f, t]) => { const li = el('li'); li.append(el('b', '', f), el('span', '', t)); ul.append(li); });
+}
+function showBrief(i) {
+  S.lvl = i;
+  const lvl = LEVELS[i];
+  $('#bLevel').textContent = lvl.nombre + ' · práctica, no suma al juego';
+  $('#bTitle').textContent = lvl.titulo;
+  $('#bIntro').textContent = lvl.intro;
+  fillStory($('#bStory'), lvl);
+  const rules = $('#bRules'); rules.textContent = '';
+  lvl.reglas.forEach(r => rules.append(el('p', '', r)));
+  $('#btnGo').textContent = 'Empezar ' + lvl.nombre.toLowerCase();
+  show('brief');
+}
+$('#btnGo').addEventListener('click', () => startLevel(S.lvl));
+$('#btnBack').addEventListener('click', exitPractice);
+
+function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+function buildLevel(lvl) {
+  const tb = $('#kbody'); tb.textContent = '';
+  S.slots = {}; S.chips = []; S.slotCount = 0; S.filled = 0;
+  lvl.lines.forEach((ln, i) => {
+    if (ln.p) {
+      const tr = el('tr', 'prod'); const td = el('td', '', ln.p); td.colSpan = 11; tr.append(td); tb.append(tr);
+      return;
+    }
+    const tr = el('tr', ln.f ? 'new' : 'cont');
+    tr.append(el('td', 'date', ln.f || ''), el('td', 'concept', ln.c || ''));
+    ['e', 's', 'd'].forEach(g => {
+      const arr = ln[g] || [null, null, null];
+      arr.forEach((v, k) => {
+        const td = el('td', 'num g-' + g + (k === 0 ? ' first' : ''));
+        if (v === null) td.classList.add('empty');
+        else if (typeof v === 'number') td.textContent = cellText(k, v);
+        else {
+          const key = i + g + k;
+          const btn = el('button', 'slot'); btn.type = 'button'; btn.dataset.key = key;
+          btn.setAttribute('aria-label', GROUPS[g] + ', ' + FIELDS[k] + ', fila ' + (i + 1));
+          td.append(btn);
+          S.slots[key] = { key, line: i, k, ans: v.b, filled: false, btn };
+          S.slotCount++;
+          S.chips.push({ v: v.b, used: false });
+        }
+        tr.append(td);
+      });
+    });
+    tb.append(tr);
+  });
+  lvl.decoys.forEach(v => S.chips.push({ v, used: false }));
+  shuffle(S.chips);
+  const box = $('#chips'); box.textContent = '';
+  S.chips.forEach((c, i) => {
+    c.id = 'c' + i;
+    const b = el('button', 'chip c' + (i % 5), chipText(c.v)); b.type = 'button'; b.dataset.id = c.id; b.dataset.col = 'c' + (i % 5);
+    c.el = b; box.append(b);
+  });
+  fillStory($('#pStory'), lvl);
+}
+
+function startReal(i) {
+  S.mode = 'real'; S.playRound = S.G.round;
+  S.P = Object.assign({}, S.P, { status: i === 0 ? 'jugando1' : 'jugando2' });
+  savePlayer();
+  startLevel(i);
+}
+function startLevel(i) {
+  const lvl = LEVELS[i], real = S.mode === 'real';
+  S.lvl = i; S.errors = 0; S.pen = 0; S.lives = lvl.vidas; S.sel = null;
+  buildLevel(lvl);
+  const now = Date.now();
+  S.startedAt = real ? S.G.startAt : now;
+  S.deadline = i === 0 ? (real ? S.G.endAt : now + lvl.tiempo * 1000) : 0;
+  S.playing = true;
+  $('#enun').open = real || window.innerWidth >= 900;
+  show('play');
+  renderHud();
+  clearInterval(S.timerId); S.timerId = setInterval(tick, 250);
+}
+const effDeadline = () => S.deadline - S.pen * 1000;
+function tick() {
+  if (!S.playing) return;
+  if (S.mode === 'real' && S.lvl === 0 && S.G.endAt) S.deadline = S.G.endAt;
+  if (LEVELS[S.lvl].tiempo && Date.now() >= effDeadline()) { endLevel(false, 'tiempo'); return; }
+  renderHud();
+}
+function renderHud() {
+  const lvl = LEVELS[S.lvl], now = Date.now();
+  $('#hLevel').textContent = lvl.nombre.replace('Nivel ', '') + ' · PEPS';
+  if (lvl.tiempo) {
+    const left = Math.max(0, Math.ceil((effDeadline() - now) / 1000));
+    $('#hTime').textContent = mmss(left); $('#hTimeLabel').textContent = 'Tiempo restante';
+    $('#hTimeBox').classList.toggle('warn', left <= 30);
+  } else {
+    $('#hTime').textContent = mmss(Math.max(0, (now - S.startedAt) / 1000)); $('#hTimeLabel').textContent = 'Tiempo';
+    $('#hTimeBox').classList.remove('warn');
+  }
+  const lv = $('#hLives');
+  if (lvl.vidas) {
+    $('#hLivesLabel').textContent = 'Vidas';
+    lv.className = 'hearts'; lv.textContent = '';
+    for (let i = 0; i < lvl.vidas; i++) {
+      const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      s.setAttribute('viewBox', '0 0 24 24'); s.setAttribute('class', 'heart ' + (i < S.lives ? 'on' : 'off')); s.setAttribute('aria-hidden', 'true');
+      const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      p.setAttribute('d', 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z');
+      s.append(p); lv.append(s);
+    }
+    lv.setAttribute('aria-label', S.lives + ' vidas');
+  } else {
+    $('#hLivesLabel').textContent = 'Errores';
+    lv.className = ''; lv.textContent = '';
+    lv.append(el('strong', '', String(S.errors)));
+  }
+  $('#hCells').textContent = S.filled + '/' + S.slotCount;
+  $('#hBar').style.width = (S.slotCount ? S.filled / S.slotCount * 100 : 0) + '%';
+  $('#trayLeft').textContent = 'Casillas ' + S.filled + ' de ' + S.slotCount;
+}
+
+function select(id) {
+  S.sel = S.sel === id ? null : id;
+  S.chips.forEach(c => c.el.classList.toggle('sel', c.id === S.sel));
+}
+function slotAt(x, y) {
+  const t = document.elementFromPoint(x, y);
+  const b = t && t.closest ? t.closest('.slot') : null;
+  const s = b ? S.slots[b.dataset.key] : null;
+  return s && !s.filled ? s : null;
+}
+function clearHot() { document.querySelectorAll('.slot.hot').forEach(b => b.classList.remove('hot')); }
+
+function tryPlace(chipId, slot) {
+  if (!S.playing) return;
+  const chip = S.chips.find(c => c.id === chipId);
+  if (!chip || chip.used || slot.filled) return;
+  const lvl = LEVELS[S.lvl];
+  if (chip.v === slot.ans) {
+    slot.filled = true; chip.used = true; S.filled++; S.sel = null;
+    slot.btn.textContent = cellText(slot.k, chip.v); slot.btn.className = 'slot ok';
+    slot.btn.setAttribute('aria-label', slot.btn.getAttribute('aria-label') + ': ' + cellText(slot.k, chip.v));
+    chip.el.hidden = true;
+    renderHud();
+    if (S.filled === S.slotCount) endLevel(true);
+  } else {
+    S.errors++;
+    if (lvl.vidas) S.lives--; else S.pen += 5;
+    slot.btn.classList.remove('bad'); void slot.btn.offsetWidth; slot.btn.classList.add('bad');
+    const h = lvl.lines[slot.line].h;
+    toast('Ese valor no va ahí' + (lvl.vidas ? '.' : ' (−5 segundos).') + (h ? ' Pista: ' + h : ''), 'bad');
+    renderHud();
+    if (lvl.vidas && S.lives <= 0) endLevel(false, 'vidas');
+  }
+}
+
+let drag = null;
+const chipsBox = $('#chips'), ghost = $('#ghost');
+chipsBox.addEventListener('pointerdown', e => {
+  if (!S.playing || (e.pointerType === 'mouse' && e.button !== 0)) return;
+  const chip = e.target.closest('.chip'); if (!chip) return;
+  drag = { id: chip.dataset.id, chip, x0: e.clientX, y0: e.clientY, moved: false, off: e.pointerType === 'mouse' ? 0 : -46 };
+  try { chip.setPointerCapture(e.pointerId); } catch (_) {}
+});
+chipsBox.addEventListener('pointermove', e => {
+  if (!drag) return;
+  if (!drag.moved && Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0) > 8) {
+    drag.moved = true;
+    ghost.textContent = drag.chip.textContent; ghost.className = 'chip ghost ' + drag.chip.dataset.col; ghost.hidden = false;
+    drag.chip.classList.add('lifting');
+    if (S.sel) select(S.sel);
+  }
+  if (!drag.moved) return;
+  ghost.style.left = e.clientX + 'px'; ghost.style.top = (e.clientY + drag.off) + 'px';
+  clearHot();
+  const s = slotAt(e.clientX, e.clientY + drag.off); if (s) s.btn.classList.add('hot');
+  const wrap = $('#kwrap'), r = wrap.getBoundingClientRect();
+  if (e.clientY > r.top - 24 && e.clientY < r.bottom + 24) {
+    if (e.clientX < r.left + 44) wrap.scrollLeft -= 16; else if (e.clientX > r.right - 44) wrap.scrollLeft += 16;
+  }
+});
+function endDrag(e, drop) {
+  if (!drag) return;
+  const d = drag; drag = null;
+  ghost.hidden = true; d.chip.classList.remove('lifting'); clearHot();
+  if (!drop) return;
+  if (d.moved) { const s = slotAt(e.clientX, e.clientY + d.off); if (s) tryPlace(d.id, s); }
+  else select(d.id);
+}
+chipsBox.addEventListener('click', e => {
+  if (e.detail !== 0 || !S.playing) return;
+  const chip = e.target.closest('.chip'); if (chip) select(chip.dataset.id);
+});
+chipsBox.addEventListener('pointerup', e => endDrag(e, true));
+chipsBox.addEventListener('pointercancel', e => endDrag(e, false));
+$('#kbody').addEventListener('click', e => {
+  const b = e.target.closest('.slot'); if (!b || !S.playing) return;
+  const slot = S.slots[b.dataset.key]; if (slot.filled) return;
+  if (S.sel) tryPlace(S.sel, slot); else toast('Toca primero una ficha y luego la casilla, o arrástrala.');
+});
+
+async function claimPodium() {
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  for (let p = 1; p <= 3; p++) {
+    const ref = S.db.doc('podium/p' + p);
+    for (let a = 0; a < 6; a++) {
+      try {
+        const s1 = await ref.get(); if (s1.exists && s1.data().uid) break;
+        const r = await ref.acquire({ holder: S.uid, ttlMs: 30000 });
+        if (!r.acquired) { await sleep(500); continue; }
+        const s2 = await ref.get(); if (s2.exists && s2.data().uid) break;
+        await ref.set({ uid: S.uid, name: S.P.name, t2: S.P.t2, place: p });
+        return p;
+      } catch (e) { await sleep(400); }
+    }
+  }
+  return 0;
+}
+
+function endLevel(ok, reason) {
+  if (!S.playing) return;
+  stopPlay();
+  const used = Math.max(0, Math.round((Date.now() - S.startedAt) / 1000));
+  if (S.mode === 'practice') { showPracticeResult({ ok, reason, lvl: S.lvl, used, errors: S.errors, lives: S.lives }); return; }
+  if (S.lvl === 0) {
+    S.P = Object.assign({}, S.P, { status: ok ? 'paso1' : 'fuera1', a1: S.filled, e1: S.errors, t1: used });
+    savePlayer(); route();
+  } else if (ok) {
+    S.claiming = true;
+    S.P = Object.assign({}, S.P, { status: 'final', e2: S.errors, l2: S.lives, t2: used, place: 0 });
+    claimPodium().then(n => { S.P.place = n; S.claiming = false; return savePlayer(); }).then(() => route());
+    route();
+  } else {
+    S.P = Object.assign({}, S.P, { status: 'fuera2', e2: S.errors, l2: 0, t2: used });
+    savePlayer(); route();
+  }
+}
+
+function showPracticeResult(R) {
+  const first = R.lvl === 0;
+  $('#rEyebrow').textContent = 'Práctica · ' + LEVELS[R.lvl].nombre + ' · no suma al juego';
+  let title, text;
+  if (first) { title = R.ok ? '¡Lo lograste!' : 'Se acabó el tiempo'; text = R.ok ? 'Completaste el Kardex del nivel 1. Puedes probar también el nivel 2.' : 'No alcanzaste a llenar todas las casillas. Inténtalo otra vez.'; }
+  else { title = R.ok ? '¡Lo lograste!' : 'Te quedaste sin vidas'; text = R.ok ? 'Completaste el Kardex del nivel 2.' : 'Perdiste las dos vidas. Inténtalo otra vez.'; }
+  $('#rTitle').textContent = title; $('#rText').textContent = text;
+  const st = $('#rStats'); st.textContent = '';
+  const done = Object.values(S.slots).filter(s => s.filled).length;
+  st.append(stat('Aciertos', done + ' de ' + S.slotCount), stat('Errores', String(R.errors)), stat('Tiempo', mmss(R.used)));
+  const act = $('#rActions'); act.textContent = '';
+  if (first && R.ok) addBtn(act, 'Probar el nivel 2', 'primary', () => showBrief(1));
+  addBtn(act, 'Repetir este nivel', 'ghost', () => showBrief(R.lvl));
+  addBtn(act, 'Salir de la práctica', 'ghost', exitPractice);
+  show('result');
+}
+
+async function initCaps() {
+  const c = window.claude;
+  if (!c || !c.use) return;
+  try { const u = await c.use('user'); if (u) { S.uid = await u.id(); S.isOwner = await u.isOwner(); } } catch (e) {}
+  try { S.dl = await c.use('downloads'); } catch (e) { S.dl = null; }
+  try { S.db = await c.use('db'); } catch (e) { S.db = null; }
+  if (!S.db) return;
+  try {
+    S.db.doc('game/state').onSnapshot(snap => {
+      S.G = snap.exists ? Object.assign({ round: 0, phase: 'lobby' }, snap.data()) : { round: 0, phase: 'lobby' };
+      onGameChange();
+    }, () => {});
+  } catch (e) {}
+  try {
+    S.db.collection('podium').onSnapshot(snap => {
+      S.podium = {}; snap.docs.forEach(d => { S.podium[d.id] = d.data(); });
+      route();
+    }, () => {});
+  } catch (e) {}
+  if (S.isOwner) {
+    try {
+      S.db.collection('ranking').onSnapshot(snap => {
+        S.players = snap.docs.map(d => Object.assign({ id: d.id }, d.data()));
+        route();
+      }, () => {});
+    } catch (e) {}
+  }
+  if (S.uid) {
+    try {
+      S.db.doc('ranking/' + S.uid).onSnapshot(snap => { S.P = snap.exists ? snap.data() : null; route(); }, () => {});
+    } catch (e) {}
+  }
+}
+
+function updateRoleTag() { $('#roleTag').textContent = S.asPlayer ? 'Volver al modo profe' : 'Ver como estudiante'; }
+$('#roleTag').addEventListener('click', () => {
+  if (S.practice || S.playing) { toast('Termina o sal de la práctica antes de cambiar de vista.'); return; }
+  S.asPlayer = !S.asPlayer; S.waitKey = ''; S.hostKey = ''; S.finalKey = '';
+  updateRoleTag(); route();
+});
+$('#roleTag').hidden = true;
+setJoin('loading');
+Promise.race([initCaps(), new Promise(r => setTimeout(r, 5000))]).then(() => {
+  S.ready = true;
+  $('#roleTag').hidden = !S.isOwner;
+  updateRoleTag();
+  route();
+});
+setInterval(route, 250);
+})();
+</script>
+</body></html>
