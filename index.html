@@ -80,7 +80,7 @@ p { margin: 0; }
 .reveal .pod.p2 { animation-delay: 1s; }
 .reveal .pod.p1 { animation-delay: 1.9s; }
 @keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
-.hud { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.hud { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .stat { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 10px 14px; min-width: 0; }
 .stat small { display: block; font-size: .7rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .stat strong { display: block; font-family: var(--font-num); font-weight: 500; font-size: 1.45rem; line-height: 1.25; font-variant-numeric: tabular-nums; }
@@ -112,6 +112,26 @@ p { margin: 0; }
   .pod.p1 .step { height: 150px; } .pod.p2 .step { height: 110px; } .pod.p3 .step { height: 84px; }
 }
 @media (prefers-reduced-motion: reduce) { .card.bad, .reveal .pod { animation: none; } .bar i { transition: none; } }
+
+.bigtime { font-family: var(--font-num); font-size: clamp(3.6rem, 15vw, 8rem); font-weight: 500; line-height: 1; margin-top: 18px; font-variant-numeric: tabular-nums; color: var(--accent); }
+.bigcap { margin-top: 6px; color: var(--muted); font-weight: 800; letter-spacing: .08em; text-transform: uppercase; font-size: .8rem; }
+.hostgrid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+.qrcard { width: min(100%, 300px); margin: 16px auto; padding: 16px; border-radius: 22px; background: #ffffff; box-shadow: var(--shadow); }
+#qrbox img, #qrbox canvas { display: block; width: 100%; height: auto; }
+#qrbox canvas { display: none; }
+.urltxt { text-align: center; font-family: var(--font-num); font-size: .82rem; color: var(--muted); overflow-wrap: anywhere; }
+.rank-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.rank-head h3 { font-size: 1.5rem; }
+.rank-head p { color: var(--muted); font-weight: 700; }
+.plist { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.pl { display: flex; gap: 8px; align-items: center; padding: 6px 12px 6px 14px; border-radius: 999px; background: var(--surface2); max-width: 100%; }
+.pl b { font-weight: 800; overflow-wrap: anywhere; }
+.st { font-weight: 800; font-size: .72rem; padding: 2px 9px; border-radius: 999px; background: var(--surface); color: var(--ink); white-space: nowrap; }
+.st.final { background: var(--mint); color: #24493a; }
+.st.lobby { background: var(--butter); color: #4d3d10; }
+.empty-list { padding: 16px 18px; border-radius: 18px; background: var(--surface2); color: var(--muted); margin-top: 14px; }
+.stats.one { margin-top: 20px; }
+@media (max-width: 760px) { .hostgrid { grid-template-columns: minmax(0, 1fr); } }
 </style>
 </head><body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -124,17 +144,17 @@ p { margin: 0; }
 </svg>
 <header class="top"><div class="brand"><svg aria-hidden="true"><use href="#heel"/></svg><span>Word Match</span></div></header>
 <main class="wrap">
-  <section id="s-start">
+  <section id="s-join" hidden>
     <div class="hero">
       <div>
         <p class="eyebrow">Cost accounting vocabulary</p>
         <h1>Word <em>Match</em></h1>
-        <p class="lead">Connect each term with its correct definition. You have 3 lives: every wrong match costs one.</p>
-        <div class="form">
+        <p class="lead">Connect each term with its correct definition. You have 3 lives: every wrong match costs one. Everyone starts at the same time when the teacher gives the signal.</p>
+        <div class="form" id="jForm" hidden>
           <label for="name">Your name</label>
           <div class="row">
             <input id="name" maxlength="30" autocomplete="name" placeholder="First and last name">
-            <button id="btnStart" class="btn primary" type="button">Start</button>
+            <button id="btnJoin" class="btn primary" type="button">Join the game</button>
           </div>
         </div>
         <div class="rules">
@@ -142,10 +162,45 @@ p { margin: 0; }
           <p>👆 Tap a term, then tap its definition. A line connects the pair.</p>
           <p>🏆 The top 3 players reach the podium.</p>
         </div>
-        <div class="row result-actions"><button id="btnPodium" class="btn ghost" type="button">View podium</button></div>
         <p class="note" id="jNote" hidden></p>
       </div>
       <div class="hero-art"><svg viewBox="0 0 180 120" role="img" aria-label="High-heel shoe"><use href="#heel"/></svg></div>
+    </div>
+  </section>
+  <section id="s-wait" hidden>
+    <div class="panel center">
+      <p class="eyebrow" id="wEyebrow"></p>
+      <h2 class="big" id="wTitle"></h2>
+      <p class="lead" id="wText"></p>
+      <div class="bigtime" id="wBig" hidden></div>
+      <p class="bigcap" id="wCap" hidden></p>
+    </div>
+  </section>
+  <section id="s-host" hidden>
+    <div class="hostgrid">
+      <div class="panel">
+        <p class="eyebrow" id="hoEyebrow"></p>
+        <h2 id="hoTitle" style="font-size:clamp(1.7rem,4.4vw,2.6rem);margin-top:6px"></h2>
+        <p class="lead" id="hoText"></p>
+        <div class="bigtime" id="hoBig" hidden></div>
+        <dl class="stats" id="hoStats"></dl>
+        <div class="row result-actions" id="hoActions"></div>
+      </div>
+      <div class="panel">
+        <div id="sideQr">
+          <p class="eyebrow">Scan to join</p>
+          <div class="qrcard"><div id="qrbox"></div></div>
+          <p class="urltxt" id="hoUrl"></p>
+        </div>
+        <div id="sidePod" hidden>
+          <p class="eyebrow">Live podium</p>
+          <div id="hoPodium"></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel" style="margin-top:16px">
+      <div class="rank-head"><h3>Players</h3><p id="hoCount"></p></div>
+      <ul class="plist" id="hoPlayers"></ul>
     </div>
   </section>
   <section id="s-play" hidden>
@@ -170,23 +225,11 @@ p { margin: 0; }
       <p class="rank" id="rRank"></p>
       <h3 style="margin-top:28px">Podium</h3>
       <div id="rPodium"></div>
-      <div class="row center result-actions"><button id="btnAgain" class="btn primary" type="button">Play again</button></div>
-    </div>
-  </section>
-  <section id="s-podium" hidden>
-    <div class="panel center">
-      <p class="eyebrow">Top 3 players</p>
-      <h2 class="big">Podium</h2>
-      <div id="pPodium"></div>
-      <p class="note" id="pCount"></p>
-      <div class="row center result-actions">
-        <button id="btnBack" class="btn ghost" type="button">Back</button>
-        <button id="btnReset" class="btn ghost" type="button" hidden>Reset podium</button>
-      </div>
     </div>
   </section>
 </main>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 /* Conexión en vivo con Firebase Realtime Database (reemplaza la base de datos de Claude) */
 (function () {
@@ -292,7 +335,7 @@ window.claude = { use: async n => (n === 'user' ? user : n === 'db' ? db : n ===
 <script>
 (function () {
 'use strict';
-const LIVES = 3;
+const LIVES = 3, LEAD_MS = 6000;
 const PAIRS = [
   { w: 'Variable cost', d: 'Changes in total as the volume of production changes.' },
   { w: 'Fixed cost', d: 'Stays the same in total within the relevant range, whatever the volume.' },
@@ -303,6 +346,7 @@ const PAIRS = [
 ];
 const N = PAIRS.length;
 const COLORS = [['#f4b8cc', '#b93a70'], ['#d8c8f4', '#6b4bb0'], ['#c6ecdc', '#217a58'], ['#ffd8c2', '#c0612b'], ['#c4e2f7', '#2a73a8'], ['#fff0b8', '#a8870a']];
+const SHARE_URL = location.href.split('#')[0];
 
 const $ = (s, r) => (r || document).querySelector(s);
 const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
@@ -310,22 +354,44 @@ const mmss = s => { s = Math.max(0, Math.round(s)); return String(Math.floor(s /
 function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 const lsName = v => { try { if (v != null) localStorage.setItem('wm-name', v); return localStorage.getItem('wm-name') || ''; } catch (e) { return ''; } };
 
-const S = { db: null, uid: null, name: '', playing: false, timerId: 0, startedAt: 0, deadline: 0, lives: LIVES, matched: 0, selL: null, selR: null, lock: false, done: {}, lines: [], temp: null, scores: [], last: null, cur: '' };
+const S = {
+  ready: false, db: null, uid: null, isHost: /host/.test(location.hash),
+  G: { round: 0, phase: 'lobby' }, rooms: [], scores: [],
+  playing: false, playRound: -1, playedRound: -1, startedAt: 0, lives: LIVES, matched: 0, selL: null, selR: null, lock: false, lines: [], temp: null, last: null,
+  cur: '', waitKey: '', hostKey: '', resultKey: '', sig: ''
+};
 
-const SCREENS = ['start', 'play', 'result', 'podium'];
+const SCREENS = ['join', 'wait', 'host', 'play', 'result'];
 function show(n) {
   SCREENS.forEach(s => { $('#s-' + s).hidden = s !== n; });
   if (S.cur !== n) { window.scrollTo(0, 0); S.cur = n; }
-  if (n === 'result' || n === 'podium') refreshPodiums();
+  if (n !== 'wait') S.waitKey = '';
+  if (n !== 'host') S.hostKey = '';
+  if (n !== 'result') S.resultKey = '';
 }
 let toastTimer = 0;
 function toast(msg, kind) {
   const t = $('#toast'); t.textContent = msg; t.className = 'toast ' + (kind || ''); t.hidden = false;
   clearTimeout(toastTimer); toastTimer = setTimeout(() => { t.hidden = true; }, 3000);
 }
+function addBtn(box, label, cls, fn, confirm) {
+  const b = el('button', 'btn ' + cls, label); b.type = 'button';
+  let armed = false, t = 0;
+  b.addEventListener('click', () => {
+    if (confirm && !armed) { armed = true; b.textContent = 'Sure? Tap again'; clearTimeout(t); t = setTimeout(() => { armed = false; b.textContent = label; }, 3500); return; }
+    fn();
+  });
+  box.append(b); return b;
+}
+function stat(dt, dd) { const d = el('div'); d.append(el('dt', '', dt), el('dd', '', dd)); return d; }
+
+/* ---------- Data helpers ---------- */
+const roomPlayers = () => S.rooms.filter(r => r.round === S.G.round && r.name);
+const me = () => S.rooms.find(r => r.id === S.uid && r.round === S.G.round) || null;
+const roundScores = () => S.scores.filter(s => s.round === S.G.round && s.name);
+const sorted = () => roundScores().slice().sort((a, b) => (b.score - a.score) || (a.ts - b.ts));
 
 /* ---------- Podium ---------- */
-const sorted = () => S.scores.filter(s => s && s.name).slice().sort((a, b) => (b.score - a.score) || (a.ts - b.ts));
 function renderPodium(box, reveal) {
   const top = sorted().slice(0, 3);
   box.textContent = '';
@@ -337,29 +403,139 @@ function renderPodium(box, reveal) {
   });
   box.append(wrap);
 }
-let lastSig = '';
-function refreshPodiums() {
-  const sig = JSON.stringify(sorted().slice(0, 3).map(s => [s.id, s.score])) + S.cur;
-  if (sig === lastSig) return;
-  lastSig = sig;
-  if (!$('#s-result').hidden) { renderPodium($('#rPodium'), false); updateRank(); }
-  if (!$('#s-podium').hidden) { renderPodium($('#pPodium'), true); const c = S.scores.length; $('#pCount').textContent = c + (c === 1 ? ' player has finished' : ' players have finished'); }
+let podSig = '';
+function refreshPodiums(force) {
+  const sig = JSON.stringify(sorted().slice(0, 3).map(s => [s.id, s.score])) + S.cur + S.G.round;
+  if (sig === podSig && !force) return;
+  podSig = sig;
+  if (!$('#s-result').hidden) { renderPodium($('#rPodium'), true); updateRank(); }
+  if (!$('#s-host').hidden && !$('#sidePod').hidden) renderPodium($('#hoPodium'), false);
 }
 function updateRank() {
   const list = sorted(), i = list.findIndex(s => s.id === S.uid);
   $('#rRank').textContent = i >= 0 ? 'You are currently #' + (i + 1) + ' of ' + list.length : '';
 }
 
+/* ---------- Router ---------- */
+function route() {
+  if (!S.ready || S.playing) return;
+  if (S.isHost && S.db) renderHost(); else renderStudent();
+}
+function onGameChange() {
+  if (S.playing && S.G.round !== S.playRound) stopPlay();
+  route();
+}
+function stopPlay() { S.playing = false; }
+
+/* ---------- Students ---------- */
+function setJoin(mode) {
+  show('join');
+  $('#jForm').hidden = mode !== 'form';
+  const note = $('#jNote');
+  note.hidden = mode !== 'offline' && mode !== 'loading';
+  if (mode === 'offline') note.textContent = 'Could not connect to the room. Check your internet and reload the page.';
+  if (mode === 'loading') note.textContent = 'Connecting to the room…';
+  if (mode === 'form' && !$('#name').value) $('#name').value = lsName();
+}
+function setWait(o) {
+  show('wait');
+  if (S.waitKey !== o.key) {
+    S.waitKey = o.key;
+    $('#wEyebrow').textContent = o.eyebrow || ''; $('#wTitle').textContent = o.title || ''; $('#wText').textContent = o.text || '';
+    const c = $('#wCap'); c.hidden = !o.cap; c.textContent = o.cap || '';
+  }
+  const big = $('#wBig'); big.hidden = o.big == null; if (o.big != null) big.textContent = o.big;
+}
+function renderStudent() {
+  const g = S.G, now = Date.now(), m = me();
+  if (!S.db || !S.uid) { setJoin('offline'); return; }
+  if (g.phase === 'lobby') {
+    if (!m) { setJoin('form'); return; }
+    const n = roomPlayers().length;
+    setWait({ key: 'in' + g.round + ':' + n, eyebrow: 'Waiting room', title: 'You are in!', text: 'Wait for the teacher to start the game. Everyone begins at the same time.', cap: n + (n === 1 ? ' player' : ' players') + ' in the room' });
+    return;
+  }
+  if (!m) { setWait({ key: 'late', eyebrow: 'Game in progress', title: 'The game has already started', text: 'Wait for the next round and join again.' }); return; }
+  if (S.playedRound === g.round && S.last) { showResult(S.last); return; }
+  const sc = S.scores.find(s => s.id === S.uid && s.round === g.round);
+  if (sc) { S.last = sc; S.playedRound = g.round; showResult(sc); return; }
+  if (now < g.startAt) { setWait({ key: 'cd', eyebrow: 'Get ready!', title: 'Starting in…', text: 'Connect each term with its definition. You have 3 lives.', big: String(Math.max(1, Math.ceil((g.startAt - now) / 1000))) }); return; }
+  startGame();
+}
+$('#btnJoin').addEventListener('click', async () => {
+  const name = $('#name').value.trim();
+  if (name.length < 2) { toast('Type your name to join.', 'bad'); $('#name').focus(); return; }
+  if (!S.db || !S.uid) { toast('No connection to the room. Reload the page.', 'bad'); return; }
+  try { await S.db.doc('room/' + S.uid).set({ name, round: S.G.round, ts: Date.now() }); lsName(name); route(); }
+  catch (e) { toast('We could not register you. Reload the page and try again.', 'bad'); }
+});
+$('#name').addEventListener('keydown', e => { if (e.key === 'Enter') $('#btnJoin').click(); });
+
+/* ---------- Teacher screen (#host) ---------- */
+let qrDone = false;
+function buildQr() {
+  $('#hoUrl').textContent = SHARE_URL;
+  if (qrDone) return;
+  const box = $('#qrbox');
+  if (!window.QRCode) { box.textContent = 'The QR generator could not load. Share the link below.'; return; }
+  try { new window.QRCode(box, { text: SHARE_URL, width: 512, height: 512, colorDark: '#3a2848', colorLight: '#ffffff', correctLevel: window.QRCode.CorrectLevel.M }); qrDone = true; }
+  catch (e) { box.textContent = 'The QR could not be generated. Share the link below.'; }
+}
+async function hostWrite(fn, okMsg) {
+  try { await fn(); if (okMsg) toast(okMsg, 'good'); }
+  catch (e) { toast('The game could not be updated. Check your connection.', 'bad'); }
+}
+const gameRef = () => S.db.doc('game/state');
+function startRound() { const t = Date.now(); hostWrite(() => gameRef().set({ round: S.G.round, phase: 'play', startAt: t + LEAD_MS, ts: t })); }
+function newRound() {
+  hostWrite(async () => {
+    const dels = S.rooms.map(r => S.db.doc('room/' + r.id).delete()).concat(S.scores.map(s => S.db.doc('scores/' + s.id).delete()));
+    await Promise.all(dels);
+    await gameRef().set({ round: S.G.round + 1, phase: 'lobby', ts: Date.now() });
+  }, 'New round ready. Ask everyone to join again.');
+}
+function renderHost() {
+  const g = S.G, now = Date.now();
+  show('host'); buildQr();
+  const pl = roomPlayers().slice().sort((a, b) => a.name.localeCompare(b.name, 'en'));
+  const n = pl.length, fin = new Set(roundScores().map(s => s.id));
+  const kind = g.phase === 'lobby' ? 'lobby' : (now < g.startAt ? 'cd' : 'run');
+  const sig = kind + '|' + g.round + '|' + pl.map(p => p.id + (fin.has(p.id) ? '*' : '')).join(',') + '|' + roundScores().length;
+  if (sig !== S.hostKey) {
+    S.hostKey = sig;
+    const eb = $('#hoEyebrow'), ti = $('#hoTitle'), tx = $('#hoText'), st = $('#hoStats'), ac = $('#hoActions');
+    st.textContent = ''; ac.textContent = '';
+    $('#sideQr').hidden = kind !== 'lobby';
+    $('#sidePod').hidden = kind === 'lobby';
+    if (kind === 'lobby') {
+      eb.textContent = 'Waiting room'; ti.textContent = 'When everyone is in, start';
+      tx.textContent = 'Show this code on the projector. Everyone scans it, types their name and waits here.';
+      st.append(stat('Players in the room', String(n)));
+      const b = addBtn(ac, 'Start for everyone', 'primary big', startRound); b.disabled = n === 0;
+    } else {
+      eb.textContent = 'Word Match'; ti.textContent = kind === 'cd' ? 'Everyone starts together in…' : 'The game is live';
+      tx.textContent = kind === 'cd' ? 'The board appears on every screen at the same time.' : 'Read the definitions aloud while they play. The podium updates as players finish.';
+      st.append(stat('Players', String(n)), stat('Finished', fin.size + ' of ' + n));
+      addBtn(ac, 'New round', 'ghost', newRound, true);
+      renderPodium($('#hoPodium'), false);
+    }
+    $('#hoCount').textContent = n + (n === 1 ? ' player' : ' players');
+    const list = $('#hoPlayers'); list.textContent = '';
+    if (!n) list.append(el('li', 'empty-list', 'Nobody has joined yet.'));
+    pl.forEach(p => { const li = el('li', 'pl'); li.append(el('b', '', p.name)); if (kind !== 'lobby') li.append(el('span', 'st ' + (fin.has(p.id) ? 'final' : 'lobby'), fin.has(p.id) ? 'Finished' : 'Playing')); list.append(li); });
+  }
+  const big = $('#hoBig');
+  if (kind === 'cd') { big.hidden = false; big.textContent = String(Math.max(1, Math.ceil((g.startAt - now) / 1000))); } else big.hidden = true;
+}
+
 /* ---------- Game ---------- */
 function startGame() {
-  const name = $('#name').value.trim();
-  if (name.length < 2) { toast('Type your name to start.', 'bad'); $('#name').focus(); return; }
-  S.name = name; lsName(name);
-  S.lives = LIVES; S.matched = 0; S.selL = S.selR = null; S.lock = false; S.done = {}; S.lines = []; S.temp = null;
+  const m = me(), g = S.G;
+  S.lives = LIVES; S.matched = 0; S.selL = S.selR = null; S.lock = false; S.lines = []; S.temp = null;
   const L = $('#colL'), R = $('#colR'); L.textContent = ''; R.textContent = '';
-  shuffle(PAIRS.map((_, i) => i)).forEach(i => { const b = el('button', 'card w', PAIRS[i].w); b.type = 'button'; b.dataset.i = i; b.dataset.side = 'L'; L.append(b); });
-  shuffle(PAIRS.map((_, i) => i)).forEach(i => { const b = el('button', 'card d', PAIRS[i].d); b.type = 'button'; b.dataset.i = i; b.dataset.side = 'R'; R.append(b); });
-  S.startedAt = Date.now(); S.playing = true;
+  shuffle(PAIRS.map((_, i) => i)).forEach(i => { const b = el('button', 'card w', PAIRS[i].w); b.type = 'button'; b.dataset.i = i; L.append(b); });
+  shuffle(PAIRS.map((_, i) => i)).forEach(i => { const b = el('button', 'card d', PAIRS[i].d); b.type = 'button'; b.dataset.i = i; R.append(b); });
+  S.playRound = g.round; S.startedAt = g.startAt; S.playing = true; S.name = m ? m.name : '';
   show('play'); drawLines(); renderHud();
 }
 function renderHud() {
@@ -376,7 +552,6 @@ function renderHud() {
   $('#hBar').style.width = (S.matched / N * 100) + '%';
 }
 function cardOf(side, i) { return $('#col' + side).querySelector('.card[data-i="' + i + '"]'); }
-
 function drawLines() {
   const svg = $('#lines'), board = $('#board'); svg.textContent = '';
   const br = board.getBoundingClientRect();
@@ -392,12 +567,12 @@ function drawLines() {
   S.lines.forEach(l => add(l.i, l.i, COLORS[l.c][1]));
   if (S.temp) add(S.temp.l, S.temp.r, '#b3303f');
 }
-window.addEventListener('resize', () => { if (S.playing || !$('#s-play').hidden) drawLines(); });
+window.addEventListener('resize', () => { if (!$('#s-play').hidden) drawLines(); });
 if (window.ResizeObserver) new ResizeObserver(() => { if (!$('#s-play').hidden) drawLines(); }).observe($('#board'));
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (!$('#s-play').hidden) drawLines(); });
 
 function pick(side, i) {
-  if (!S.playing || S.lock || S.done[i] === true && false) return;
+  if (!S.playing || S.lock) return;
   const card = cardOf(side, i);
   if (card.classList.contains('done')) return;
   if (side === 'L') S.selL = S.selL === i ? null : i; else S.selR = S.selR === i ? null : i;
@@ -421,49 +596,36 @@ function evaluate() {
     [a, b].forEach(x => { x.classList.remove('bad'); void x.offsetWidth; x.classList.add('bad'); });
     drawLines(); renderHud();
     toast('Not a match. You lose a life.', 'bad');
-    setTimeout(() => { S.temp = null; S.lock = false; [a, b].forEach(x => x.classList.remove('bad')); drawLines(); if (S.lives <= 0) finish(false, 'lives'); }, 650);
+    setTimeout(() => { S.temp = null; S.lock = false; [a, b].forEach(x => x.classList.remove('bad')); drawLines(); if (S.lives <= 0) finish(false); }, 650);
   }
 }
 $('#colL').addEventListener('click', e => { const c = e.target.closest('.card'); if (c) pick('L', +c.dataset.i); });
 $('#colR').addEventListener('click', e => { const c = e.target.closest('.card'); if (c) pick('R', +c.dataset.i); });
 
-function finish(ok, reason) {
+function finish(ok) {
   if (!S.playing) return;
-  S.playing = false; clearInterval(S.timerId);
+  S.playing = false;
   const used = Math.max(0, Math.round((Date.now() - S.startedAt) / 1000));
   const lives = Math.max(0, S.lives);
   const score = S.matched * 100000 + lives * 10000 + (ok ? Math.max(0, 9999 - used) : 0);
-  S.last = { name: S.name, matched: S.matched, lives, used, score, ts: Date.now() };
-  $('#rTitle').textContent = ok ? 'You matched them all!' : 'You ran out of lives';
-  $('#rText').textContent = ok ? 'Great job, you connected every term with its definition.' : 'You matched ' + S.matched + ' of ' + N + '. You can play again and improve your score.';
-  const st = $('#rStats'); st.textContent = '';
-  [['Matched', S.matched + '/' + N], ['Lives left', String(lives)], ['Time', mmss(used)]].forEach(([k, v]) => { const d = el('div'); d.append(el('dt', '', k), el('dd', '', v)); st.append(d); });
-  $('#rRank').textContent = '';
-  lastSig = ''; show('result');
-  saveScore();
+  S.last = { id: S.uid, name: S.name, round: S.playRound, matched: S.matched, lives, used, score, ok, ts: Date.now() };
+  S.playedRound = S.playRound;
+  showResult(S.last);
+  if (S.db && S.uid) S.db.doc('scores/' + S.uid).set(S.last).catch(() => toast('Your score could not be saved. Check your connection.', 'bad'));
 }
-async function saveScore() {
-  if (!S.db || !S.uid || !S.last) return;
-  try {
-    const ref = S.db.doc('scores/' + S.uid), snap = await ref.get();
-    if (!snap.exists || S.last.score > (snap.data().score || 0)) await ref.set(S.last);
-  } catch (e) { toast('Your score could not be saved. Check your connection.', 'bad'); }
+function showResult(r) {
+  show('result');
+  const key = r.id + ':' + r.round + ':' + r.score;
+  if (S.resultKey !== key) {
+    S.resultKey = key;
+    $('#rTitle').textContent = r.matched === N ? 'You matched them all!' : 'You ran out of lives';
+    $('#rText').textContent = r.matched === N ? 'Great job, you connected every term with its definition.' : 'You matched ' + r.matched + ' of ' + N + '. Wait for the next round.';
+    const st = $('#rStats'); st.textContent = '';
+    st.append(stat('Matched', r.matched + '/' + N), stat('Lives left', String(r.lives)), stat('Time', mmss(r.used)));
+    refreshPodiums(true);
+  } else refreshPodiums(false);
+  updateRank();
 }
-
-/* ---------- Buttons ---------- */
-$('#btnStart').addEventListener('click', startGame);
-$('#name').addEventListener('keydown', e => { if (e.key === 'Enter') startGame(); });
-$('#btnAgain').addEventListener('click', () => { show('start'); });
-$('#btnPodium').addEventListener('click', () => { lastSig = ''; show('podium'); });
-$('#btnBack').addEventListener('click', () => show('start'));
-if (/reset/.test(location.hash)) $('#btnReset').hidden = false;
-let armed = false, armT = 0;
-$('#btnReset').addEventListener('click', async () => {
-  const b = $('#btnReset');
-  if (!armed) { armed = true; b.textContent = 'Sure? Tap again'; clearTimeout(armT); armT = setTimeout(() => { armed = false; b.textContent = 'Reset podium'; }, 3500); return; }
-  armed = false; b.textContent = 'Reset podium';
-  try { await Promise.all(S.scores.map(s => S.db.doc('scores/' + s.id).delete())); toast('Podium cleared.', 'good'); } catch (e) { toast('Could not reset the podium.', 'bad'); }
-});
 
 /* ---------- Connection ---------- */
 async function init() {
@@ -473,12 +635,13 @@ async function init() {
   try { const u = await c.use('user'); if (u) S.uid = await u.id(); } catch (e) {}
   try { S.db = await c.use('db'); } catch (e) { S.db = null; }
   if (!S.db) return;
-  try {
-    S.db.collection('scores').onSnapshot(snap => { S.scores = snap.docs.map(d => Object.assign({ id: d.id }, d.data())); refreshPodiums(); }, () => {});
-  } catch (e) {}
+  try { S.db.doc('game/state').onSnapshot(snap => { S.G = snap.exists ? Object.assign({ round: 0, phase: 'lobby' }, snap.data()) : { round: 0, phase: 'lobby' }; onGameChange(); }, () => {}); } catch (e) {}
+  try { S.db.collection('room').onSnapshot(snap => { S.rooms = snap.docs.map(d => Object.assign({ id: d.id }, d.data())); route(); }, () => {}); } catch (e) {}
+  try { S.db.collection('scores').onSnapshot(snap => { S.scores = snap.docs.map(d => Object.assign({ id: d.id }, d.data())); refreshPodiums(false); route(); }, () => {}); } catch (e) {}
 }
-const note = $('#jNote');
-init().then(() => { if (!S.db) { note.hidden = false; note.textContent = 'The podium is not connected right now, but you can still play.'; } });
+setJoin('loading');
+Promise.race([init(), new Promise(r => setTimeout(r, 5000))]).then(() => { S.ready = true; route(); });
+setInterval(route, 250);
 })();
 </script>
 </body></html>
