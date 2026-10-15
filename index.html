@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Heel Kardex</title>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Word Match</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&family=Nunito:wght@400;600;700;800&display=swap">
@@ -9,8 +9,7 @@ html{scroll-padding-top:env(safe-area-inset-top,0px)}
 :root {
   --bg: #fbf5fa; --surface: #ffffff; --surface2: #f6ecf6; --ink: #3a2848; --muted: #76628a; --line: #e8d8e8;
   --accent: #b93a70; --accent-ink: #ffffff; --rose: #f4b8cc; --lilac: #d8c8f4; --mint: #c6ecdc; --peach: #ffd8c2; --sky: #c4e2f7; --butter: #fff0b8;
-  --chip-ink: #3a2848; --in-bg: #e8f7f0; --out-bg: #ffece1; --bal-bg: #efe8fb; --blank-bg: #ffffff; --blank-line: #c4a2d6;
-  --hot-bg: #ffe2ee; --ok-bg: #d9f4e7; --good: #217a58; --bad: #b3303f;
+  --hot-bg: #ffe2ee; --good: #217a58; --bad: #b3303f;
   --shadow: 0 14px 34px -16px rgba(120, 50, 120, .45);
   --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
   --font-body: 'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -19,28 +18,25 @@ html{scroll-padding-top:env(safe-area-inset-top,0px)}
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #1d1425; --surface: #2a1e36; --surface2: #34263f; --ink: #f7e8f2; --muted: #bba6c8; --line: #4a3858;
-    --accent: #f08db4; --accent-ink: #3a1630; --in-bg: #223a33; --out-bg: #44302f; --bal-bg: #35294c;
-    --blank-bg: #241a2e; --blank-line: #8d6ba6; --hot-bg: #4a2a3d; --ok-bg: #234a3a; --good: #6fd3a9; --bad: #ff8a98;
+    --accent: #f08db4; --accent-ink: #3a1630; --hot-bg: #4a2a3d; --good: #6fd3a9; --bad: #ff8a98;
     --shadow: 0 14px 34px -16px rgba(0, 0, 0, .7); color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #1d1425; --surface: #2a1e36; --surface2: #34263f; --ink: #f7e8f2; --muted: #bba6c8; --line: #4a3858;
-  --accent: #f08db4; --accent-ink: #3a1630; --in-bg: #223a33; --out-bg: #44302f; --bal-bg: #35294c;
-  --blank-bg: #241a2e; --blank-line: #8d6ba6; --hot-bg: #4a2a3d; --ok-bg: #234a3a; --good: #6fd3a9; --bad: #ff8a98;
+  --accent: #f08db4; --accent-ink: #3a1630; --hot-bg: #4a2a3d; --good: #6fd3a9; --bad: #ff8a98;
   --shadow: 0 14px 34px -16px rgba(0, 0, 0, .7); color-scheme: dark;
 }
 * { box-sizing: border-box; }
 body { margin:0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.5; }
-img{max-width:100%}
 button, input { font: inherit; color: inherit; }
 h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.1; margin: 0; text-wrap: balance; }
 p { margin: 0; }
 :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 10px 16px; background: var(--bg); border-bottom: 1px solid var(--line); }
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; display: flex; align-items: center; gap: 10px; padding: 10px 16px; background: var(--bg); border-bottom: 1px solid var(--line); }
 .brand { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; }
 .brand svg { width: 38px; height: 26px; }
-.wrap { max-width: 1100px; margin-inline: auto; padding-inline: 16px; padding-block: 22px 56px; }
+.wrap { max-width: 1000px; margin-inline: auto; padding-inline: 16px; padding-block: 22px 56px; }
 .eyebrow { font-size: .78rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
 .center { text-align: center; }
 .btn { border: 2px solid var(--accent); background: transparent; color: var(--accent); padding: 11px 20px; border-radius: 999px; font-weight: 800; cursor: pointer; min-height: 46px; }
@@ -55,61 +51,26 @@ p { margin: 0; }
 .hero h1 em { font-style: italic; color: var(--accent); font-weight: 500; }
 .lead { margin-top: 14px; font-size: 1.1rem; color: var(--muted); max-width: 52ch; }
 .center .lead { margin-inline: auto; }
-#jForm, #jIn { margin-top: 22px; display: grid; gap: 8px; }
-#jForm label { font-weight: 800; font-size: .9rem; }
+.form { margin-top: 22px; display: grid; gap: 8px; }
+.form label { font-weight: 800; font-size: .9rem; }
 #name { flex: 1 1 200px; min-width: 0; padding: 11px 16px; border-radius: 999px; border: 2px solid var(--line); background: var(--surface); min-height: 46px; }
-#jIn p { padding: 14px 18px; border-radius: 18px; background: var(--mint); color: #24493a; font-weight: 700; }
-#btnPractice { margin-top: 14px; }
+.rules { margin-top: 18px; padding: 14px 16px; border-radius: 18px; background: var(--surface2); display: grid; gap: 6px; }
+.rules p { font-size: .96rem; }
 .hero-art { display: grid; place-items: center; aspect-ratio: 1 / 1; max-width: 100%; border-radius: 50%; background: var(--lilac); position: relative; }
 .hero-art::after { content: ""; position: absolute; inset: 10%; border-radius: 50%; background: var(--rose); opacity: .55; }
 .hero-art svg { width: 78%; height: auto; position: relative; z-index: 1; }
-.levels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 34px; }
-.lvl { border-radius: 24px; padding: 20px; background: var(--in-bg); }
-.lvl.two { background: var(--bal-bg); }
-.lvl.zero { background: var(--butter); color: #3a2848; }
-.lvl.zero p { color: #5d4a6e; }
-.lvl h2 { font-size: 1.4rem; margin-top: 4px; }
-.lvl p { margin-top: 8px; color: var(--muted); }
-.lvl .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
-.tag { font-size: .8rem; font-weight: 800; padding: 4px 10px; border-radius: 999px; background: var(--surface); color: var(--ink); }
-.note { margin-top: 18px; color: var(--muted); font-size: .92rem; max-width: 70ch; }
 .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: 22px; box-shadow: var(--shadow); }
-.panel h2 { font-size: clamp(1.7rem, 4.4vw, 2.6rem); margin-top: 6px; }
 .big { font-size: clamp(2rem, 6vw, 3.2rem); margin-top: 6px; }
-.bigtime { font-family: var(--font-num); font-size: clamp(3.6rem, 15vw, 8rem); font-weight: 500; line-height: 1; margin-top: 18px; font-variant-numeric: tabular-nums; color: var(--accent); }
-.bigcap { margin-top: 6px; color: var(--muted); font-weight: 800; letter-spacing: .08em; text-transform: uppercase; font-size: .8rem; }
-.quote { font-family: var(--font-display); font-style: italic; font-size: 1.3rem; margin: 20px auto 0; max-width: 36ch; color: var(--accent); }
-.story { margin: 16px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
-.story li { display: grid; grid-template-columns: 62px minmax(0, 1fr); gap: 10px; align-items: baseline; }
-.story b { font-family: var(--font-num); font-weight: 500; font-size: .85rem; color: var(--accent); }
-.rules { margin-top: 18px; padding: 14px 16px; border-radius: 18px; background: var(--surface2); display: grid; gap: 6px; }
-.rules p { font-size: .96rem; }
 .result-actions { margin-top: 22px; }
-.stats { margin: 20px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.stats { margin: 20px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; }
 .stats div { border-radius: 18px; padding: 12px 16px; background: var(--surface2); text-align: left; }
 .stats dt { font-size: .74rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .stats dd { margin: 0; font-family: var(--font-num); font-size: 1.6rem; font-variant-numeric: tabular-nums; }
-.hostgrid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 16px; align-items: start; }
-.qrcard { width: min(100%, 300px); margin: 16px auto; padding: 16px; border-radius: 22px; background: #ffffff; box-shadow: var(--shadow); }
-#qrbox img, #qrbox canvas { display: block; width: 100%; height: auto; }
-#qrbox canvas { display: none; }
-.urltxt { text-align: center; font-family: var(--font-num); font-size: .82rem; color: var(--muted); overflow-wrap: anywhere; }
-.rank-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
-.rank-head h3 { font-size: 1.5rem; }
-.rank-head p { color: var(--muted); font-weight: 700; }
-.plist { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
-.pl { display: flex; gap: 8px; align-items: center; padding: 6px 8px 6px 14px; border-radius: 999px; background: var(--surface2); max-width: 100%; }
-.pl b { font-weight: 800; overflow-wrap: anywhere; }
-.st { font-weight: 800; font-size: .72rem; padding: 2px 9px; border-radius: 999px; background: var(--surface); color: var(--ink); white-space: nowrap; }
-.st.final { background: var(--mint); color: #24493a; }
-.st.out1, .st.out2, .st.out3 { background: var(--peach); color: #5a3320; }
-.st.playing1, .st.playing2, .st.playing3, .st.passed1, .st.passed2 { background: var(--sky); color: #24425a; }
-.st.lobby { background: var(--butter); color: #4d3d10; }
-.mini { border: 1px solid var(--line); background: transparent; border-radius: 999px; padding: 2px 10px; font-size: .72rem; font-weight: 800; color: var(--muted); cursor: pointer; }
-.empty-list { padding: 16px 18px; border-radius: 18px; background: var(--surface2); color: var(--muted); margin-top: 14px; }
+.rank { margin-top: 14px; font-weight: 800; color: var(--accent); font-size: 1.1rem; }
 .podium { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; align-items: end; margin: 24px auto 0; max-width: 760px; }
 .pod { display: flex; flex-direction: column; justify-content: flex-end; min-width: 0; }
-.pname { font-family: var(--font-display); font-weight: 700; font-size: clamp(1rem, 3.6vw, 2rem); text-align: center; padding: 8px 4px 10px; overflow-wrap: anywhere; line-height: 1.1; }
+.pname { font-family: var(--font-display); font-weight: 700; font-size: clamp(1rem, 3.6vw, 2rem); text-align: center; padding: 8px 4px 2px; overflow-wrap: anywhere; line-height: 1.1; }
+.psub { text-align: center; font-family: var(--font-num); font-size: .78rem; color: var(--muted); padding-bottom: 8px; min-height: 1.6em; }
 .step { display: grid; place-items: center; border-radius: 20px 20px 0 0; font-family: var(--font-display); font-weight: 700; font-size: clamp(2rem, 7vw, 3.6rem); color: #3a2848; }
 .pod.p1 .step { height: 190px; background: var(--butter); }
 .pod.p2 .step { height: 140px; background: var(--lilac); }
@@ -119,7 +80,7 @@ p { margin: 0; }
 .reveal .pod.p2 { animation-delay: 1s; }
 .reveal .pod.p1 { animation-delay: 1.9s; }
 @keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
-.hud { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.hud { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .stat { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 10px 14px; min-width: 0; }
 .stat small { display: block; font-size: .7rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .stat strong { display: block; font-family: var(--font-num); font-weight: 500; font-size: 1.45rem; line-height: 1.25; font-variant-numeric: tabular-nums; }
@@ -130,65 +91,27 @@ p { margin: 0; }
 .heart.off { fill: none; stroke: var(--muted); stroke-width: 1.6; opacity: .6; }
 .bar { height: 8px; border-radius: 999px; background: var(--surface2); overflow: hidden; margin-top: 12px; }
 .bar i { display: block; height: 100%; width: 0; background: var(--accent); border-radius: 999px; transition: width .25s; }
-details.enun { margin-top: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 10px 16px; }
-details.enun summary { cursor: pointer; font-weight: 800; }
-details.enun .story { margin-bottom: 8px; }
-.method { margin-top: 12px; }
-.method span { display: inline-block; padding: 3px 18px; background: var(--rose); color: #3a2848; font-weight: 800; letter-spacing: .06em; }
-.quizcard { margin-top: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: 22px; box-shadow: var(--shadow); }
-.qnum { font-size: .78rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
-.qterm { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.8rem, 6vw, 3rem); line-height: 1.1; margin-top: 6px; }
-.qask { color: var(--muted); margin-top: 6px; font-weight: 700; }
-.opts { display: grid; gap: 10px; margin-top: 18px; }
-.opt { text-align: left; border: 2px solid var(--line); background: var(--surface2); border-radius: 18px; padding: 12px 16px; cursor: pointer; font-weight: 700; line-height: 1.35; min-height: 52px; }
-.opt:hover:not(:disabled) { border-color: var(--accent); }
-.opt.ok { background: var(--ok-bg); border-color: var(--good); }
-.opt.bad { background: var(--hot-bg); border-color: var(--bad); animation: shake .38s; opacity: .7; cursor: not-allowed; }
-.kwrap { margin-top: 8px; overflow-x: auto; border: 1px solid var(--line); border-radius: 20px; background: var(--surface); }
-table.kardex { border-collapse: separate; border-spacing: 0; width: 100%; min-width: 900px; font-family: var(--font-num); font-size: .86rem; }
-.kardex th, .kardex td { padding: 6px; text-align: right; border-bottom: 1px solid var(--line); font-weight: 400; }
-.kardex thead th { font-family: var(--font-body); font-weight: 800; font-size: .74rem; letter-spacing: .05em; text-transform: uppercase; text-align: center; color: var(--ink); }
-.kardex thead th.grp { background: var(--rose); color: #3a2848; font-size: .8rem; }
-.kardex thead tr:nth-child(2) th { font-size: .66rem; color: var(--muted); }
-.kardex .g-e { background: var(--in-bg); }
-.kardex .g-s { background: var(--out-bg); }
-.kardex .g-d { background: var(--bal-bg); }
-.kardex thead th.grp.g-e, .kardex thead th.grp.g-s, .kardex thead th.grp.g-d { background: var(--rose); }
-.kardex td.first, .kardex th.first { border-left: 2px solid var(--line); }
-.kardex td.date { width: 70px; text-align: right; font-family: var(--font-body); font-weight: 700; white-space: nowrap; }
-.kardex td.concept { min-width: 200px; text-align: left; font-family: var(--font-body); font-size: .86rem; }
-.kardex tr.new:not(:first-child) td { border-top: 2px solid var(--line); }
-.kardex tr.prod td { background: var(--hot-bg); text-align: center; font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; padding: 8px; border-top: 2px solid var(--line); }
-.kardex tbody tr:last-child td { border-bottom: 0; }
-.slot { width: 100%; min-width: 74px; height: 32px; border: 2px dashed var(--blank-line); border-radius: 10px; background: var(--blank-bg); color: var(--ink); font-family: var(--font-num); font-size: .86rem; cursor: pointer; padding: 0 6px; }
-.slot.hot { border-style: solid; border-color: var(--accent); background: var(--hot-bg); }
-.slot.ok { border: 2px solid var(--good); background: var(--ok-bg); cursor: default; font-weight: 500; }
-.slot.bad { animation: shake .38s; border-color: var(--bad); }
+.hint { margin-top: 12px; color: var(--muted); font-weight: 700; font-size: .92rem; text-align: center; }
+.board { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); column-gap: clamp(36px, 10vw, 110px); margin-top: 12px; }
+.col { display: grid; gap: 10px; align-content: start; }
+#lines { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.card { text-align: left; border: 2px solid var(--line); background: var(--surface); border-radius: 16px; padding: 12px; font-weight: 700; min-height: 64px; cursor: pointer; line-height: 1.25; display: flex; align-items: center; }
+.card.w { font-family: var(--font-display); font-size: 1.05rem; }
+.card.d { font-size: .9rem; font-weight: 600; }
+.card.sel { border-color: var(--accent); box-shadow: 0 0 0 3px var(--hot-bg); }
+.card.done { color: #3a2848; cursor: default; border-color: transparent; }
+.card.bad { animation: shake .38s; border-color: var(--bad); }
 @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
-.tray { position: sticky; bottom: 0; z-index: 20; margin-top: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 12px 14px calc(12px + env(safe-area-inset-bottom, 0px)); box-shadow: var(--shadow); }
-.tray-head { display: flex; justify-content: space-between; gap: 10px; font-size: .85rem; color: var(--muted); font-weight: 700; margin-bottom: 8px; }
-#chips { display: flex; flex-wrap: wrap; gap: 8px; max-height: 34vh; overflow-y: auto; padding: 2px; }
-.chip { touch-action: none; user-select: none; -webkit-user-select: none; cursor: grab; border: 2px solid transparent; border-radius: 999px; padding: 6px 14px; min-height: 38px; font-family: var(--font-num); font-weight: 500; font-size: .95rem; color: var(--chip-ink); font-variant-numeric: tabular-nums; }
-.chip.c0 { background: var(--rose); } .chip.c1 { background: var(--lilac); } .chip.c2 { background: var(--mint); }
-.chip.c3 { background: var(--peach); } .chip.c4 { background: var(--sky); }
-.chip.sel { border-color: var(--accent); box-shadow: 0 0 0 3px var(--hot-bg); }
-.chip.lifting { opacity: .35; }
-.chip.ghost { position: fixed; z-index: 100; pointer-events: none; transform: translate(-50%, -50%) scale(1.1); box-shadow: var(--shadow); margin: 0; }
 .toast { position: fixed; left: 50%; top: calc(env(safe-area-inset-top, 0px) + 66px); transform: translateX(-50%); z-index: 90; max-width: min(92vw, 520px); padding: 10px 18px; border-radius: 16px; font-weight: 700; font-size: .94rem; background: var(--ink); color: var(--bg); box-shadow: var(--shadow); text-align: center; }
 .toast.bad { background: var(--bad); color: #fff; }
 .toast.good { background: var(--good); color: #fff; }
-:root[data-theme="dark"] .toast.bad, :root[data-theme="dark"] .toast.good { color: #1d1425; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .toast.bad, :root:not([data-theme="light"]) .toast.good { color: #1d1425; } }
+.note { margin-top: 14px; color: var(--muted); font-size: .92rem; }
 @media (max-width: 760px) {
   .hero { grid-template-columns: minmax(0, 1fr); }
-  .hero-art { max-width: 260px; margin-inline: auto; order: -1; }
-  .levels { grid-template-columns: minmax(0, 1fr); }
-  .hostgrid { grid-template-columns: minmax(0, 1fr); }
-  .hud { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .story li { grid-template-columns: 54px minmax(0, 1fr); }
+  .hero-art { max-width: 220px; margin-inline: auto; order: -1; }
   .pod.p1 .step { height: 150px; } .pod.p2 .step { height: 110px; } .pod.p3 .step { height: 84px; }
 }
-@media (prefers-reduced-motion: reduce) { .slot.bad, .opt.bad, .reveal .pod { animation: none; } .bar i { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .card.bad, .reveal .pod { animation: none; } .bar i { transition: none; } }
 </style>
 </head><body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -199,154 +122,71 @@ table.kardex { border-collapse: separate; border-spacing: 0; width: 100%; min-wi
     <circle cx="46" cy="82" r="5" style="fill:var(--butter)"/>
   </symbol>
 </svg>
-<header class="top">
-  <div class="brand"><svg aria-hidden="true"><use href="#heel"/></svg><span>Heel Kardex</span></div>
-</header>
+<header class="top"><div class="brand"><svg aria-hidden="true"><use href="#heel"/></svg><span>Word Match</span></div></header>
 <main class="wrap">
-  <section id="s-join" hidden>
+  <section id="s-start">
     <div class="hero">
       <div>
-        <p class="eyebrow">Cost accounting · Kardex</p>
-        <h1>Heel <em>Kardex</em></h1>
-        <p class="lead">Match key cost accounting terms with their definitions, then complete the Kardex of a heel factory by dragging each value into its cell. Everyone starts at the same time when the teacher gives the signal.</p>
-        <div id="jForm" hidden>
+        <p class="eyebrow">Cost accounting vocabulary</p>
+        <h1>Word <em>Match</em></h1>
+        <p class="lead">Connect each term with its correct definition. You have 3 lives: every wrong match costs one.</p>
+        <div class="form">
           <label for="name">Your name</label>
           <div class="row">
             <input id="name" maxlength="30" autocomplete="name" placeholder="First and last name">
-            <button id="btnJoin" class="btn primary" type="button">Join the game</button>
+            <button id="btnStart" class="btn primary" type="button">Start</button>
           </div>
         </div>
-        <div id="jIn" hidden><p id="jInMsg"></p></div>
+        <div class="rules">
+          <p>❤ You have 3 lives.</p>
+          <p>👆 Tap a term, then tap its definition. A line connects the pair.</p>
+          <p>🏆 The top 3 players reach the podium.</p>
+        </div>
+        <div class="row result-actions"><button id="btnPodium" class="btn ghost" type="button">View podium</button></div>
         <p class="note" id="jNote" hidden></p>
-        <button id="btnPractice" class="btn ghost" type="button">Practice without score</button>
       </div>
       <div class="hero-art"><svg viewBox="0 0 180 120" role="img" aria-label="High-heel shoe"><use href="#heel"/></svg></div>
-    </div>
-    <div class="levels">
-      <article class="lvl zero">
-        <p class="eyebrow">Level 1</p>
-        <h2>Key terms</h2>
-        <p>Find the correct definition for each cost accounting term. Three minutes for everyone at the same time.</p>
-        <div class="tags"><span class="tag">3:00 minutes</span><span class="tag">8 terms</span></div>
-      </article>
-      <article class="lvl">
-        <p class="eyebrow">Level 2</p>
-        <h2>FIFO against the clock</h2>
-        <p>Four minutes for everyone at the same time. You move on if you complete the Kardex of the soles.</p>
-        <div class="tags"><span class="tag">4:00 minutes</span><span class="tag">8 cells</span></div>
-      </article>
-      <article class="lvl two">
-        <p class="eyebrow">Level 3</p>
-        <h2>The race to the podium</h2>
-        <p>The same example continues, return included. You have two lives and the first three to finish reach the podium.</p>
-        <div class="tags"><span class="tag">2 lives</span><span class="tag">9 cells</span><span class="tag">Places 1, 2 and 3</span></div>
-      </article>
-    </div>
-  </section>
-  <section id="s-wait" hidden>
-    <div class="panel center">
-      <p class="eyebrow" id="wEyebrow"></p>
-      <h2 class="big" id="wTitle"></h2>
-      <p class="lead" id="wText"></p>
-      <div class="bigtime" id="wBig" hidden></div>
-      <p class="bigcap" id="wCap" hidden></p>
-      <p class="quote" id="wQuote" hidden></p>
-      <div class="row center result-actions" id="wActions"></div>
-    </div>
-  </section>
-  <section id="s-host" hidden>
-    <div class="hostgrid">
-      <div class="panel">
-        <p class="eyebrow" id="hoEyebrow"></p>
-        <h2 id="hoTitle"></h2>
-        <p class="lead" id="hoText"></p>
-        <div class="bigtime" id="hoBig" hidden></div>
-        <p class="bigcap" id="hoCap" hidden></p>
-        <dl class="stats" id="hoStats"></dl>
-        <div class="row result-actions" id="hoActions"></div>
-      </div>
-      <div class="panel">
-        <div id="sideQr">
-          <p class="eyebrow">Scan to join</p>
-          <div class="qrcard"><div id="qrbox"></div></div>
-          <p class="urltxt" id="hoUrl"></p>
-          <div class="row center result-actions"><button id="btnQr" class="btn ghost" type="button" hidden>Download QR</button></div>
-        </div>
-        <div id="sideArr" hidden>
-          <p class="eyebrow">Podium arrivals</p>
-          <div id="hoPodium"></div>
-        </div>
-      </div>
-    </div>
-    <div class="panel" style="margin-top:16px">
-      <div class="rank-head"><h3>Players</h3><p id="hoCount"></p></div>
-      <ul class="plist" id="hoPlayers"></ul>
-      <div class="row result-actions"><button id="btnHostPractice" class="btn ghost" type="button">Try the game without affecting the match</button></div>
-    </div>
-  </section>
-  <section id="s-brief" hidden>
-    <div class="panel">
-      <p class="eyebrow" id="bLevel"></p>
-      <h2 id="bTitle"></h2>
-      <p class="lead" id="bIntro"></p>
-      <ul class="story" id="bStory"></ul>
-      <div class="rules" id="bRules"></div>
-      <div class="row result-actions"><button id="btnGo" class="btn primary" type="button">Start</button><button id="btnBack" class="btn ghost" type="button">Back</button></div>
     </div>
   </section>
   <section id="s-play" hidden>
     <div class="hud">
-      <div class="stat"><small>Level</small><strong id="hLevel">1</strong></div>
-      <div class="stat" id="hTimeBox"><small id="hTimeLabel">Time</small><strong id="hTime">03:00</strong></div>
-      <div class="stat"><small id="hLivesLabel">Mistakes</small><div id="hLives"></div></div>
-      <div class="stat"><small id="hCellsLabel">Cells</small><strong id="hCells">0/8</strong></div>
+      <div class="stat"><small>Lives</small><div id="hLives"></div></div>
+      <div class="stat"><small>Matched</small><strong id="hMatched">0/6</strong></div>
     </div>
     <div class="bar" aria-hidden="true"><i id="hBar"></i></div>
-    <div id="quiz" class="quizcard" hidden>
-      <p class="qnum" id="qNum"></p>
-      <h2 class="qterm" id="qTerm"></h2>
-      <p class="qask">Which definition matches this term?</p>
-      <div class="opts" id="qOpts"></div>
-    </div>
-    <details class="enun" id="enun"><summary>Statement</summary><ul class="story" id="pStory"></ul></details>
-    <p class="method" id="methodP"><span id="methodTag">FIFO</span></p>
-    <div class="kwrap" id="kwrap">
-      <table class="kardex">
-        <thead>
-          <tr><th rowspan="2">Date</th><th rowspan="2">Description</th><th colspan="3" class="grp g-e first">Inflows</th><th colspan="3" class="grp g-s first">Outflows</th><th colspan="3" class="grp g-d first">Balance</th></tr>
-          <tr><th class="g-e first">Quantity</th><th class="g-e">Unit cost</th><th class="g-e">Total</th><th class="g-s first">Quantity</th><th class="g-s">Unit cost</th><th class="g-s">Total</th><th class="g-d first">Quantity</th><th class="g-d">Unit cost</th><th class="g-d">Total</th></tr>
-        </thead>
-        <tbody id="kbody"></tbody>
-      </table>
-    </div>
-    <div class="tray" id="tray">
-      <div class="tray-head"><span>Drag a chip to its cell, or tap the chip and then the cell</span><span id="trayLeft"></span></div>
-      <div id="chips"></div>
+    <p class="hint">Tap a term, then tap its definition.</p>
+    <div class="board" id="board">
+      <svg id="lines" aria-hidden="true"></svg>
+      <div class="col" id="colL"></div>
+      <div class="col" id="colR"></div>
     </div>
   </section>
   <section id="s-result" hidden>
-    <div class="panel">
-      <p class="eyebrow" id="rEyebrow"></p>
+    <div class="panel center">
+      <p class="eyebrow">Your result</p>
       <h2 class="big" id="rTitle"></h2>
       <p class="lead" id="rText"></p>
       <dl class="stats" id="rStats"></dl>
-      <div class="row result-actions" id="rActions"></div>
+      <p class="rank" id="rRank"></p>
+      <h3 style="margin-top:28px">Podium</h3>
+      <div id="rPodium"></div>
+      <div class="row center result-actions"><button id="btnAgain" class="btn primary" type="button">Play again</button></div>
     </div>
   </section>
-  <section id="s-final" hidden>
+  <section id="s-podium" hidden>
     <div class="panel center">
-      <p class="eyebrow">Game over</p>
-      <h2 class="big" id="fiTitle">The podium</h2>
-      <div id="fiPodium"></div>
-      <p class="lead" id="fiText"></p>
-      <p class="quote" id="fiQuote" hidden></p>
-      <div class="row center result-actions" id="fiActions"></div>
+      <p class="eyebrow">Top 3 players</p>
+      <h2 class="big">Podium</h2>
+      <div id="pPodium"></div>
+      <p class="note" id="pCount"></p>
+      <div class="row center result-actions">
+        <button id="btnBack" class="btn ghost" type="button">Back</button>
+        <button id="btnReset" class="btn ghost" type="button" hidden>Reset podium</button>
+      </div>
     </div>
   </section>
 </main>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
-<div class="chip ghost" id="ghost" hidden></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 /* Conexión en vivo con Firebase Realtime Database (reemplaza la base de datos de Claude) */
 (function () {
@@ -452,760 +292,193 @@ window.claude = { use: async n => (n === 'user' ? user : n === 'db' ? db : n ===
 <script>
 (function () {
 'use strict';
-const SHARE_URL = location.href.split('#')[0];
-const LEAD_MS = 6000;
-const NL = 3;
-
-const B = v => ({ b: v });
-const TERMS = [
-  { t: 'Variable cost', d: 'A cost that changes in total in direct proportion to the volume of production or activity.', h: 'It goes up and down in total when production goes up and down.' },
-  { t: 'Fixed cost', d: 'A production cost that stays the same in total within the relevant range, however many units are made.', h: 'Its total does not change with the number of units produced.' },
-  { t: 'Fixed expense', d: 'A non-production cost, such as administrative rent or salaries, that stays constant and is expensed in the period incurred.', h: 'It is not a production cost: think administration and sales.' },
-  { t: 'Manufacturing overhead (CIF)', d: 'All indirect production costs that are neither direct materials nor direct labor, and are allocated to the units produced.', h: 'It is the third element of cost, after materials and labor.' },
-  { t: 'Indirect materials', d: 'Materials used in production that cannot be traced economically to a product, such as glue or cleaning supplies. They go in CIF.', h: 'Small items used in production that you cannot trace to each unit.' },
-  { t: 'Indirect labor', d: 'Wages of factory staff who do not work directly on the product, such as supervisors and maintenance workers. They go in CIF.', h: 'Factory workers who support production but do not make the product.' },
-  { t: 'Direct materials', d: 'Materials that become part of the finished product and can be traced to it, such as the soles of a heel.', h: 'They are part of the product and you can trace them to it.' },
-  { t: 'Direct labor', d: 'Wages of the workers who transform the materials into the finished product and can be traced to it.', h: 'Workers who physically make the product.' }
+const LIVES = 3;
+const PAIRS = [
+  { w: 'Variable cost', d: 'Changes in total as the volume of production changes.' },
+  { w: 'Fixed cost', d: 'Stays the same in total within the relevant range, whatever the volume.' },
+  { w: 'Fixed expense', d: 'A non-production cost, like administrative rent, expensed in the period.' },
+  { w: 'Direct materials', d: 'Materials that become part of the product and can be traced to it.' },
+  { w: 'Direct labor', d: 'Wages of the workers who make the product and can be traced to it.' },
+  { w: 'Manufacturing overhead (CIF)', d: 'Indirect production costs: indirect materials, indirect labor and other factory costs.' }
 ];
-
-const LEVELS = [
-  {
-    name: 'Level 1', title: 'Key terms', type: 'quiz', time: 180, lives: 0, terms: TERMS,
-    intro: 'Warm-up round. Show what you know about cost accounting vocabulary: for each term, find its correct definition.',
-    enunciado: [],
-    reglas: [
-      'You have 3:00 minutes, the same for everyone. Match all 8 terms with their definitions to move on to level 2.',
-      'Every mistake takes 5 seconds off your clock.',
-      'Read all four options before you tap: some definitions look alike.',
-      'Costs that go in CIF are indirect: neither direct materials nor direct labor.'
-    ]
-  },
-  {
-    name: 'Level 2', title: 'FIFO against the clock', type: 'kardex', time: 240, lives: 0,
-    intro: 'Tacones Lía S.A.S. keeps the Kardex of its soles (in pairs) using the FIFO method. In each row, the balance shows only the batch that was bought or used.',
-    enunciado: [
-      ['OB', 'Soles: 40 pairs at $25,000.'],
-      ['Jun 05', 'Purchase from Salinas Ltda #1204: 60 pairs of soles at $26,000.'],
-      ['Jun 08', 'Requisition 021 to production: 50 pairs of soles. 50 pairs remain in inventory.']
-    ],
-    reglas: [
-      'You have 4:00 minutes, the same for everyone. Complete the 8 cells to move on to level 3.',
-      'Every mistake takes 5 seconds off your clock.',
-      'In FIFO the oldest units go out first, at the cost of their batch.',
-      'When a batch runs out, its balance is 0.'
-    ],
-    decoys: [40, 1350000, 1040000],
-    lines: [
-      { p: 'Soles (pairs)' },
-      { k: 'si', c: 'OB (opening balance)', d: [40, 25000, 1000000] },
-      { k: 'compra', f: 'Jun 05', c: 'Purchase Salinas Ltda #1204', e: [60, 26000, B(1560000)], d: [60, 26000, B(1560000)], h: 'Total = quantity × unit cost. The balance of a purchase is the new batch.' },
-      { k: 'req', f: 'Jun 08', c: 'Requisition 021', s: [40, 25000, B(1000000)], d: [B(0), 0, 0], h: 'FIFO: the oldest batch goes out first, at its cost. If it runs out, the balance is 0.' },
-      { k: 'req', s: [B(10), 26000, B(260000)], d: [B(50), 26000, B(1300000)], h: 'What is missing from the requisition comes out of the next batch. The balance is what is left of that batch.' },
-    ]
-  },
-  {
-    name: 'Level 3', title: 'The race to the podium', type: 'kardex', time: 0, lives: 2,
-    intro: 'The second half of June continues in the same FIFO Kardex. The opening balances are the batches left at the end of the first part.',
-    enunciado: [
-      ['OB', 'Soles: 50 pairs at $26,000.'],
-      ['Jun 15', 'Purchase from Salinas Ltda #1250: 40 pairs of soles at $27,000.'],
-      ['Jun 18', 'Return to Salinas Ltda #1250: 10 pairs of soles (they go out at the cost of that purchase).'],
-      ['Jun 25', 'Requisition 022: 70 pairs of soles. 10 pairs remain in inventory.']
-    ],
-    reglas: [
-      'You have 2 lives. Every mistake costs one, and with none left you are out.',
-      'Whoever completes the 9 cells first wins. The first three reach the podium.',
-      'The return goes out at the cost of the purchase and reduces that batch.',
-      'If a requisition takes two rows, the first one uses up the oldest batch.'
-    ],
-    decoys: [40, 1250000, 580000, 280000],
-    lines: [
-      { p: 'Soles (pairs)' },
-      { k: 'si', c: 'OB (opening balance)', d: [50, 26000, 1300000] },
-      { k: 'compra', f: 'Jun 15', c: 'Purchase Salinas Ltda #1250', e: [40, 27000, 1080000], d: [40, 27000, B(1080000)], h: 'The balance of the purchase is the new batch: quantity × unit cost.' },
-      { k: 'dev', f: 'Jun 18', c: 'Return Salinas Ltda #1250', s: [10, 27000, B(270000)], d: [B(30), 27000, B(810000)], h: 'The return goes out at the cost of the purchase and reduces that batch: 40 − 10.' },
-      { k: 'req', f: 'Jun 25', c: 'Requisition 022', s: [50, 26000, B(1300000)], d: [B(0), 0, 0], h: 'FIFO: the oldest batch (the opening balance) is used up first.' },
-      { k: 'req', s: [20, 27000, B(540000)], d: [B(10), 27000, B(270000)], h: 'The 20 missing pairs come out of the $27,000 batch. The balance is what is left of it.' },
-    ]
-  }
-];
-
-const GROUPS = { e: 'Inflows', s: 'Outflows', d: 'Balance' };
-const FIELDS = ['Quantity', 'Unit cost', 'Total'];
-const STATUS = {
-  lobby: 'In the room', playing1: 'Playing level 1', passed1: 'Passed to level 2', out1: 'Out (level 1)',
-  playing2: 'Playing level 2', passed2: 'Passed to level 3', out2: 'Out (level 2)',
-  playing3: 'Playing level 3', out3: 'Out (level 3)', final: 'Finished'
-};
-const PHRASES = [
-  'Making mistakes is also learning: every error today is a success tomorrow.',
-  'Numbers become friends when you give them time. Keep practicing!',
-  'Speed is not what matters, moving forward is. You did very well!',
-  'The best accountant is not the one who never fails, but the one who never stops trying.',
-  'Today you practiced something you will do with your eyes closed tomorrow.',
-  'Your effort already counts. Thank you for playing with so much energy!'
-];
+const N = PAIRS.length;
+const COLORS = [['#f4b8cc', '#b93a70'], ['#d8c8f4', '#6b4bb0'], ['#c6ecdc', '#217a58'], ['#ffd8c2', '#c0612b'], ['#c4e2f7', '#2a73a8'], ['#fff0b8', '#a8870a']];
 
 const $ = (s, r) => (r || document).querySelector(s);
-const fmt = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-const money = n => '$' + fmt(n);
-const chipText = v => (v >= 1000 ? money(v) : fmt(v));
-const cellText = (k, v) => (k === 0 ? fmt(v) : money(v));
-const mmss = s => { s = Math.max(0, Math.round(s)); return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); };
 const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
-const hashStr = s => { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0; return h; };
-const lsName = v => { try { if (v != null) localStorage.setItem('kardex-nombre', v); return localStorage.getItem('kardex-nombre') || ''; } catch (e) { return ''; } };
-const prevSt = n => (n === 1 ? 'lobby' : 'passed' + (n - 1));
+const mmss = s => { s = Math.max(0, Math.round(s)); return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); };
+function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+const lsName = v => { try { if (v != null) localStorage.setItem('wm-name', v); return localStorage.getItem('wm-name') || ''; } catch (e) { return ''; } };
 
-const S = {
-  ready: false, db: null, dl: null, uid: null, isOwner: false,
-  G: { round: 0, phase: 'lobby' }, P: null, players: [], podium: {},
-  practice: false, mode: 'real', lvl: 0, playing: false, playRound: 0, claiming: false,
-  errors: 0, pen: 0, lives: 0, filled: 0, slotCount: 0, startedAt: 0, deadline: 0, timerId: 0,
-  sel: null, slots: {}, chips: [], waitKey: '', hostKey: '', finalKey: '', cur: '',
-  qOrder: [], qi: 0, qTerm: 0, qLock: false
-};
-const isHost = () => S.isOwner;
+const S = { db: null, uid: null, name: '', playing: false, timerId: 0, startedAt: 0, deadline: 0, lives: LIVES, matched: 0, selL: null, selR: null, lock: false, done: {}, lines: [], temp: null, scores: [], last: null, cur: '' };
 
-/* ---------- Screens ---------- */
-const SCREENS = ['join', 'wait', 'host', 'brief', 'play', 'result', 'final'];
-function show(name) {
-  SCREENS.forEach(n => { $('#s-' + n).hidden = n !== name; });
-  if (S.cur !== name) { window.scrollTo(0, 0); S.cur = name; }
-  if (name !== 'wait') S.waitKey = '';
-  if (name !== 'host') S.hostKey = '';
-  if (name !== 'final') S.finalKey = '';
+const SCREENS = ['start', 'play', 'result', 'podium'];
+function show(n) {
+  SCREENS.forEach(s => { $('#s-' + s).hidden = s !== n; });
+  if (S.cur !== n) { window.scrollTo(0, 0); S.cur = n; }
+  if (n === 'result' || n === 'podium') refreshPodiums();
 }
 let toastTimer = 0;
 function toast(msg, kind) {
-  const t = $('#toast');
-  t.textContent = msg; t.className = 'toast ' + (kind || ''); t.hidden = false;
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => { t.hidden = true; }, 3600);
+  const t = $('#toast'); t.textContent = msg; t.className = 'toast ' + (kind || ''); t.hidden = false;
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => { t.hidden = true; }, 3000);
 }
-function addBtn(box, label, cls, fn, confirm) {
-  const b = el('button', 'btn ' + cls, label); b.type = 'button';
-  let armed = false, t = 0;
-  b.addEventListener('click', () => {
-    if (confirm && !armed) {
-      armed = true; b.textContent = 'Sure? Tap again';
-      clearTimeout(t); t = setTimeout(() => { armed = false; b.textContent = label; }, 3500);
-      return;
-    }
-    fn();
-  });
-  box.append(b); return b;
-}
-function stat(dt, dd) { const d = el('div'); d.append(el('dt', '', dt), el('dd', '', dd)); return d; }
-
-/* ---------- Saving the player ---------- */
-let saving = Promise.resolve();
-function savePlayer() {
-  if (!S.db || !S.uid || !S.P) return saving;
-  S.P.ts = Date.now();
-  const data = Object.assign({}, S.P);
-  saving = saving.then(() => S.db.doc('ranking/' + S.uid).set(data)).catch(() => toast('Your progress could not be saved. Check your connection.', 'bad'));
-  return saving;
-}
-
-/* ---------- Router ---------- */
-function route() {
-  if (!S.ready || S.practice || S.playing) return;
-  if (!S.db) { setJoin('nologin'); return; }
-  if (isHost()) renderHost(); else renderPlayer();
-}
-function onGameChange() {
-  const g = S.G;
-  if (S.practice && !isHost() && S.P && S.P.round === g.round && g.phase !== 'lobby') { S.practice = false; stopPlay(); }
-  if (S.playing && S.mode === 'real' && (g.round !== S.playRound || g.phase === 'finished')) stopPlay();
-  route();
-}
-function stopPlay() { S.playing = false; clearInterval(S.timerId); S.sel = null; clearHot(); $('#ghost').hidden = true; }
-
-/* ---------- Students ---------- */
-function setJoin(mode) {
-  show('join');
-  $('#jForm').hidden = mode !== 'form';
-  $('#jIn').hidden = mode !== 'in';
-  const note = $('#jNote');
-  note.hidden = !(mode === 'nologin' || mode === 'loading');
-  if (mode === 'nologin') note.textContent = 'Could not connect to the room. Check your internet and reload the page. Meanwhile you can practice.';
-  if (mode === 'loading') note.textContent = 'Connecting to the room…';
-  if (mode === 'in') $('#jInMsg').textContent = (S.P && S.P.name ? S.P.name + ', you are in. ' : 'You are in. ') + 'Wait for the teacher to start level 1.';
-  if (mode === 'form' && !$('#name').value) $('#name').value = lsName();
-}
-function setWait(o) {
-  show('wait');
-  if (S.waitKey !== o.key) {
-    S.waitKey = o.key;
-    $('#wEyebrow').textContent = o.eyebrow || ''; $('#wTitle').textContent = o.title || ''; $('#wText').textContent = o.text || '';
-    const q = $('#wQuote'); q.hidden = !o.quote; q.textContent = o.quote || '';
-    const c = $('#wCap'); c.hidden = !o.cap; c.textContent = o.cap || '';
-    const act = $('#wActions'); act.textContent = '';
-    (o.actions || []).forEach(a => addBtn(act, a.label, a.cls || 'ghost', a.fn));
-  }
-  const big = $('#wBig'); big.hidden = o.big == null; if (o.big != null) big.textContent = o.big;
-}
-const practiceAct = [{ label: 'Practice in the meantime', cls: 'ghost', fn: () => startPractice() }];
-const phrase = () => PHRASES[hashStr(S.uid || 'x') % PHRASES.length];
-
-function thanks(n) {
-  const timed = LEVELS[n - 1].time > 0;
-  setWait({
-    key: 'thanks' + n, eyebrow: 'Level ' + n + ' finished', title: 'Thank you for playing!',
-    text: timed ? 'You did not complete the level in time, so you are out of the competition. What matters is that you tried.' : 'You ran out of lives in level 3. Getting this far is already a great achievement.',
-    quote: phrase(), actions: practiceAct
-  });
-}
-function forfeit(status) { S.P = Object.assign({}, S.P, { status }); savePlayer(); }
-
-function renderPlayer() {
-  const g = S.G, P = S.P, now = Date.now();
-  if (!S.uid) { setJoin('nologin'); return; }
-  const joined = P && P.round === g.round;
-  if (g.phase === 'lobby') { setJoin(joined ? 'in' : 'form'); return; }
-  if (!joined) {
-    setWait({ key: 'late', eyebrow: 'Game in progress', title: 'The game has already started', text: 'This round no longer accepts players. While you wait for the next one, you can practice.', actions: practiceAct });
-    return;
-  }
-  if (g.phase === 'finished') { renderFinal(); return; }
-  const n = +String(g.phase).slice(1);
-  if (n >= 1 && n <= NL) playerLevel(n, P, g, now);
-}
-function playerLevel(n, P, g, now) {
-  const st = P.status, timed = LEVELS[n - 1].time > 0, last = n === NL;
-  if (st === 'out' + n) { thanks(n); return; }
-  if (last && st === 'final') { afterLast(P); return; }
-  if (!last && st === 'passed' + n) {
-    if (timed && now < g.endAt) setWait({ key: 'done' + n, eyebrow: 'Level ' + n, title: 'You completed the level!', text: 'We wait until everyone\'s time is up. Then the teacher starts level ' + (n + 1) + '.', big: mmss((g.endAt - now) / 1000), cap: 'Time left' });
-    else setWait({ key: 'pass' + n, eyebrow: 'Level ' + n + ' finished', title: 'You made it to level ' + (n + 1) + '!', text: n === NL - 1 ? 'Get ready: you will have 2 lives and the first three to finish reach the podium. Wait for the teacher\'s signal.' : 'Get ready for the next level. Wait for the teacher\'s signal.' });
-    return;
-  }
-  if (st === 'playing' + n) { forfeit('out' + n); thanks(n); return; }
-  if (st !== prevSt(n)) { thanks(Math.max(1, n - 1)); return; }
-  if (now < g.startAt) {
-    setWait({ key: 'cd' + n, eyebrow: 'Level ' + n + ' · ' + LEVELS[n - 1].title, title: 'Get ready!', text: last ? 'You have 2 lives. The first three to finish reach the podium.' : 'The level appears when the counter reaches zero. You will have ' + mmss(LEVELS[n - 1].time) + ' minutes.', big: String(Math.max(1, Math.ceil((g.startAt - now) / 1000))), cap: 'Starts in' });
-    return;
-  }
-  if (!timed || now < g.endAt) { startReal(n - 1); return; }
-  forfeit('out' + n); thanks(n);
-}
-function afterLast(P) {
-  if (S.claiming) { setWait({ key: 'claim', eyebrow: 'Level 3', title: 'Recording your arrival…', text: 'One moment, we are confirming your place.' }); return; }
-  const n = P.place || 0;
-  if (n > 0) setWait({ key: 'pl' + n, eyebrow: 'Level 3 finished', title: 'You arrived in place ' + n + '!', text: 'You are on the podium. The teacher will reveal the final result on the classroom screen.' });
-  else setWait({ key: 'nopod', eyebrow: 'Level 3 finished', title: 'You finished the Kardex!', text: 'You did not make the podium this time, but you solved it completely. The teacher will reveal the final result.' });
-}
-
-$('#btnJoin').addEventListener('click', async () => {
-  const name = $('#name').value.trim();
-  if (name.length < 2) { toast('Type your name to join.', 'bad'); $('#name').focus(); return; }
-  if (!S.db || !S.uid) { toast('There is no connection to the room. Reload the page.', 'bad'); return; }
-  const data = { name, round: S.G.round, status: 'lobby', ts: Date.now(), place: 0 };
-  try { await S.db.doc('ranking/' + S.uid).set(data); S.P = data; lsName(name); route(); }
-  catch (e) { toast('We could not register you. Close the page and open it again.', 'bad'); }
-});
-$('#name').addEventListener('keydown', e => { if (e.key === 'Enter') $('#btnJoin').click(); });
 
 /* ---------- Podium ---------- */
+const sorted = () => S.scores.filter(s => s && s.name).slice().sort((a, b) => (b.score - a.score) || (a.ts - b.ts));
 function renderPodium(box, reveal) {
+  const top = sorted().slice(0, 3);
   box.textContent = '';
   const wrap = el('div', 'podium' + (reveal ? ' reveal' : ''));
-  [['p2', 2], ['p1', 1], ['p3', 3]].forEach(([id, n]) => {
-    const d = S.podium[id], pod = el('div', 'pod p' + n);
-    pod.append(el('div', 'pname', d && d.name ? d.name : '—'), el('div', 'step', String(n)));
+  [[1, 2], [0, 1], [2, 3]].forEach(([i, n]) => {
+    const d = top[i], pod = el('div', 'pod p' + n);
+    pod.append(el('div', 'pname', d ? d.name : '—'), el('div', 'psub', d ? d.matched + '/' + N + ' · ' + d.lives + '♥ · ' + mmss(d.used) : ''), el('div', 'step', String(n)));
     wrap.append(pod);
   });
   box.append(wrap);
 }
-const podiumSig = () => ['p1', 'p2', 'p3'].map(k => (S.podium[k] && S.podium[k].name) || '').join('|');
-
-function renderFinal() {
-  show('final');
-  const P = S.P, place = P && P.place ? P.place : 0;
-  let text = '', quote = '';
-  if (!isHost() && P) {
-    if (P.status === 'final' && place > 0) text = 'You came in place ' + place + '! Congratulations.';
-    else if (P.status === 'final') text = 'You completed the whole Kardex. Great job!';
-    else { text = 'Thank you for playing!'; quote = phrase(); }
-  } else if (isHost()) text = 'These are the first three people who completed the Kardex.';
-  const key = [podiumSig(), text, isHost(), S.G.round].join('~');
-  if (key === S.finalKey) return;
-  S.finalKey = key;
-  renderPodium($('#fiPodium'), true);
-  $('#fiText').textContent = text;
-  const q = $('#fiQuote'); q.hidden = !quote; q.textContent = quote;
-  const act = $('#fiActions'); act.textContent = '';
-  if (isHost()) addBtn(act, 'New game', 'primary', newGame, true);
-  else addBtn(act, 'Practice', 'ghost', () => startPractice());
+let lastSig = '';
+function refreshPodiums() {
+  const sig = JSON.stringify(sorted().slice(0, 3).map(s => [s.id, s.score])) + S.cur;
+  if (sig === lastSig) return;
+  lastSig = sig;
+  if (!$('#s-result').hidden) { renderPodium($('#rPodium'), false); updateRank(); }
+  if (!$('#s-podium').hidden) { renderPodium($('#pPodium'), true); const c = S.scores.length; $('#pCount').textContent = c + (c === 1 ? ' player has finished' : ' players have finished'); }
+}
+function updateRank() {
+  const list = sorted(), i = list.findIndex(s => s.id === S.uid);
+  $('#rRank').textContent = i >= 0 ? 'You are currently #' + (i + 1) + ' of ' + list.length : '';
 }
 
-/* ---------- Teacher panel ---------- */
-let qrDone = false;
-function buildQr() {
-  $('#hoUrl').textContent = SHARE_URL;
-  $('#btnQr').hidden = !S.dl;
-  if (qrDone) return;
-  const box = $('#qrbox');
-  if (!window.QRCode) { box.textContent = 'The QR generator could not load. Share the link below.'; return; }
-  try {
-    new window.QRCode(box, { text: SHARE_URL, width: 512, height: 512, colorDark: '#3a2848', colorLight: '#ffffff', correctLevel: window.QRCode.CorrectLevel.M });
-    qrDone = true;
-  } catch (e) { box.textContent = 'The QR could not be generated. Share the link below.'; }
-}
-$('#btnQr').addEventListener('click', () => {
-  const cv = $('#qrbox canvas');
-  if (!cv || !S.dl) { toast('Download not available here. Take a screenshot of the code.'); return; }
-  cv.toBlob(b => {
-    if (!b) { toast('The image could not be prepared.', 'bad'); return; }
-    S.dl.save({ filename: 'qr-heel-kardex.png', data: b }).catch(() => toast('Could not download. Take a screenshot of the code.', 'bad'));
-  }, 'image/png');
-});
-
-async function hostWrite(fn, okMsg) {
-  try { await fn(); if (okMsg) toast(okMsg, 'good'); }
-  catch (e) { toast('The game could not be updated. Check your connection and that you opened the teacher link.', 'bad'); }
-}
-const gameRef = () => S.db.doc('game/state');
-function startL(n) {
-  const t = Date.now(), secs = LEVELS[n - 1].time;
-  const data = { round: S.G.round, phase: 'l' + n, startAt: t + LEAD_MS, ts: t };
-  if (secs) data.endAt = t + LEAD_MS + secs * 1000;
-  hostWrite(() => gameRef().set(data));
-}
-function closeL() { hostWrite(() => gameRef().update({ endAt: Date.now(), ts: Date.now() })); }
-function finishGame() { hostWrite(() => gameRef().update({ phase: 'finished', ts: Date.now() })); }
-function newGame() {
-  hostWrite(async () => {
-    const dels = S.players.map(p => S.db.doc('ranking/' + p.id).delete());
-    ['p1', 'p2', 'p3'].forEach(k => dels.push(S.db.doc('podium/' + k).delete()));
-    await Promise.all(dels);
-    await gameRef().set({ round: S.G.round + 1, phase: 'lobby', ts: Date.now() });
-  }, 'New game ready. Ask everyone to scan the QR again.');
-}
-function reactTarget(p) {
-  const g = S.G, now = Date.now(), m = /^out(\d)$/.exec(p.status || '');
-  if (!m) return '';
-  const k = +m[1];
-  if (k === 1 && (g.phase === 'lobby' || (g.phase === 'l1' && now < g.endAt))) return 'lobby';
-  if (k > 1 && g.phase === 'l' + k && (k === NL || now < g.endAt)) return prevSt(k);
-  return '';
-}
-function reactivate(p) {
-  const to = reactTarget(p);
-  if (!to) { toast('It can no longer be reactivated at this stage.'); return; }
-  hostWrite(() => S.db.doc('ranking/' + p.id).update({ status: to }), 'Player reactivated.');
-}
-
-function renderHost() {
-  const g = S.G, now = Date.now();
-  if (g.phase === 'finished') { renderFinal(); return; }
-  show('host');
-  buildQr();
-  const pl = S.players.filter(p => p.round === g.round && p.name).sort((a, b) => a.name.localeCompare(b.name, 'en'));
-  const cnt = k => pl.filter(p => k.includes(p.status)).length;
-  const n = pl.length;
-  let kind = 'lobby', lv = 0;
-  if (g.phase !== 'lobby') {
-    lv = +String(g.phase).slice(1);
-    if (now < g.startAt) kind = 'cd';
-    else if (lv < NL) kind = now < g.endAt ? 'run' : 'end';
-    else kind = 'run';
-  }
-  const stage = kind + lv;
-  const sig = pl.map(p => p.id + ':' + p.status + ':' + (p.place || 0)).join(',') + '|' + podiumSig();
-  const key = stage + '|' + sig;
-  if (key !== S.hostKey) {
-    S.hostKey = key;
-    const eb = $('#hoEyebrow'), ti = $('#hoTitle'), tx = $('#hoText'), st = $('#hoStats'), ac = $('#hoActions');
-    st.textContent = ''; ac.textContent = '';
-    $('#sideQr').hidden = kind !== 'lobby';
-    $('#sideArr').hidden = !(lv === NL && (kind === 'cd' || kind === 'run'));
-    if (!$('#sideArr').hidden) renderPodium($('#hoPodium'), false);
-    if (kind === 'lobby') {
-      eb.textContent = 'Waiting room'; ti.textContent = 'When everyone is in, start';
-      tx.textContent = 'Show the code on the projector. Each student opens the link and types their name.';
-      st.append(stat('In the room', String(n)));
-      const b = addBtn(ac, 'Start level 1', 'primary big', () => startL(1)); b.disabled = n === 0;
-    } else if (kind === 'end') {
-      const pass = cnt(['passed' + lv]);
-      const eligible = cnt(['passed' + lv, 'out' + lv, 'playing' + lv, prevSt(lv)]);
-      eb.textContent = 'Level ' + lv + ' finished'; ti.textContent = 'Time is up';
-      tx.textContent = pass > 0 ? 'Those who did not finish already saw their thank-you message. Whenever you want, start level ' + (lv + 1) + '.' : 'Nobody completed the level. You can start a new game.';
-      st.append(stat('Move to level ' + (lv + 1), String(pass)), stat('Left out', String(eligible - pass)));
-      if (pass > 0) addBtn(ac, 'Start level ' + (lv + 1), 'primary big', () => startL(lv + 1));
-      addBtn(ac, 'New game', 'ghost', newGame, true);
-    } else if (lv < NL) {
-      eb.textContent = 'Level ' + lv + ' · ' + LEVELS[lv - 1].title;
-      ti.textContent = kind === 'cd' ? 'Everyone starts together in…' : 'Level ' + lv + ' is live';
-      tx.textContent = kind === 'cd' ? 'The level appears on every screen at the same time.' : 'Players who finish before the time runs out move on to level ' + (lv + 1) + '.';
-      st.append(stat('Already finished', cnt(['passed' + lv]) + ' of ' + n), stat('Playing', String(cnt([prevSt(lv), 'playing' + lv]))));
-      if (kind === 'run') addBtn(ac, 'Close level ' + lv + ' now', 'ghost', closeL, true);
-    } else {
-      eb.textContent = 'Level 3 · The race';
-      ti.textContent = kind === 'cd' ? 'Everyone starts together in…' : 'Level 3 is live';
-      tx.textContent = 'The first to complete the Kardex gets place 1, the second place 2 and the third place 3.';
-      st.append(stat('Competing', String(cnt(['passed2', 'playing3']))), stat('Finished', String(cnt(['final']))), stat('Out of lives', String(cnt(['out3']))));
-      addBtn(ac, 'Finish game', 'primary big', finishGame, true);
-    }
-    $('#hoCount').textContent = n + (n === 1 ? ' player' : ' players');
-    const list = $('#hoPlayers'); list.textContent = '';
-    if (!n) list.append(el('li', 'empty-list', 'Nobody has joined yet.'));
-    pl.forEach(p => {
-      const li = el('li', 'pl'); li.append(el('b', '', p.name), el('span', 'st ' + p.status, STATUS[p.status] || p.status));
-      if (reactTarget(p)) { const m = el('button', 'mini', 'Reactivate'); m.type = 'button'; m.addEventListener('click', () => reactivate(p)); li.append(m); }
-      list.append(li);
-    });
-  }
-  const big = $('#hoBig'), cap = $('#hoCap');
-  if (kind === 'cd') { big.hidden = false; big.textContent = String(Math.max(1, Math.ceil((g.startAt - now) / 1000))); cap.hidden = true; }
-  else if (kind === 'run' && lv < NL) { big.hidden = false; big.textContent = mmss((g.endAt - now) / 1000); cap.hidden = false; cap.textContent = 'Time left'; }
-  else if (kind === 'run') { big.hidden = false; big.textContent = mmss((now - g.startAt) / 1000); cap.hidden = false; cap.textContent = 'Time elapsed'; }
-  else { big.hidden = true; cap.hidden = true; }
-}
-
-/* ---------- Practice ---------- */
-function startPractice() { S.practice = true; S.mode = 'practice'; showBrief(0); }
-function exitPractice() { S.practice = false; S.mode = 'real'; stopPlay(); S.waitKey = ''; S.hostKey = ''; route(); }
-$('#btnPractice').addEventListener('click', startPractice);
-$('#btnHostPractice').addEventListener('click', startPractice);
-
-function fillStory(ul, lvl) {
-  ul.textContent = '';
-  lvl.enunciado.forEach(([f, t]) => { const li = el('li'); li.append(el('b', '', f), el('span', '', t)); ul.append(li); });
-}
-function showBrief(i) {
-  S.lvl = i;
-  const lvl = LEVELS[i];
-  $('#bLevel').textContent = lvl.name + ' · practice mode, does not count for the game';
-  $('#bTitle').textContent = lvl.title;
-  $('#bIntro').textContent = lvl.intro;
-  fillStory($('#bStory'), lvl);
-  const rules = $('#bRules'); rules.textContent = '';
-  lvl.reglas.forEach(r => rules.append(el('p', '', r)));
-  $('#btnGo').textContent = 'Start ' + lvl.name.toLowerCase();
-  show('brief');
-}
-$('#btnGo').addEventListener('click', () => startLevel(S.lvl));
-$('#btnBack').addEventListener('click', exitPractice);
-
-/* ---------- Board ---------- */
-function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
-
-function buildLevel(lvl) {
-  const tb = $('#kbody'); tb.textContent = '';
-  S.slots = {}; S.chips = []; S.slotCount = 0; S.filled = 0;
-  lvl.lines.forEach((ln, i) => {
-    if (ln.p) {
-      const tr = el('tr', 'prod'); const td = el('td', '', ln.p); td.colSpan = 11; tr.append(td); tb.append(tr);
-      return;
-    }
-    const tr = el('tr', ln.f ? 'new' : 'cont');
-    tr.append(el('td', 'date', ln.f || ''), el('td', 'concept', ln.c || ''));
-    ['e', 's', 'd'].forEach(g => {
-      const arr = ln[g] || [null, null, null];
-      arr.forEach((v, k) => {
-        const td = el('td', 'num g-' + g + (k === 0 ? ' first' : ''));
-        if (v === null) td.classList.add('empty');
-        else if (typeof v === 'number') td.textContent = cellText(k, v);
-        else {
-          const key = i + g + k;
-          const btn = el('button', 'slot'); btn.type = 'button'; btn.dataset.key = key;
-          btn.setAttribute('aria-label', GROUPS[g] + ', ' + FIELDS[k] + ', row ' + (i + 1));
-          td.append(btn);
-          S.slots[key] = { key, line: i, k, ans: v.b, filled: false, btn };
-          S.slotCount++;
-          S.chips.push({ v: v.b, used: false });
-        }
-        tr.append(td);
-      });
-    });
-    tb.append(tr);
-  });
-  lvl.decoys.forEach(v => S.chips.push({ v, used: false }));
-  shuffle(S.chips);
-  const box = $('#chips'); box.textContent = '';
-  S.chips.forEach((c, i) => {
-    c.id = 'c' + i;
-    const b = el('button', 'chip c' + (i % 5), chipText(c.v)); b.type = 'button'; b.dataset.id = c.id; b.dataset.col = 'c' + (i % 5);
-    c.el = b; box.append(b);
-  });
-  fillStory($('#pStory'), lvl);
-}
-
-/* ---------- Quiz (level 1) ---------- */
-function buildQuiz(lvl) {
-  S.slots = {}; S.chips = []; S.filled = 0; S.slotCount = lvl.terms.length;
-  S.qOrder = shuffle(lvl.terms.map((_, i) => i)); S.qi = 0;
-  showQuestion();
-}
-function showQuestion() {
-  const lvl = LEVELS[S.lvl], idx = S.qOrder[S.qi], term = lvl.terms[idx];
-  $('#qNum').textContent = 'Term ' + (S.qi + 1) + ' of ' + S.slotCount;
-  $('#qTerm').textContent = term.t;
-  const others = shuffle(lvl.terms.map((_, i) => i).filter(i => i !== idx)).slice(0, 3);
-  const box = $('#qOpts'); box.textContent = '';
-  shuffle([idx].concat(others)).forEach(i => {
-    const b = el('button', 'opt', lvl.terms[i].d); b.type = 'button'; b.dataset.i = String(i); box.append(b);
-  });
-  S.qTerm = idx; S.qLock = false;
-}
-$('#qOpts').addEventListener('click', e => {
-  const b = e.target.closest('.opt');
-  if (!b || b.disabled || !S.playing || S.qLock) return;
-  const lvl = LEVELS[S.lvl];
-  if (+b.dataset.i === S.qTerm) {
-    S.qLock = true; b.classList.add('ok'); S.filled++; renderHud();
-    setTimeout(() => {
-      if (!S.playing) return;
-      if (S.filled === S.slotCount) endLevel(true); else { S.qi++; showQuestion(); }
-    }, 450);
-  } else {
-    S.errors++; S.pen += 5; b.classList.add('bad'); b.disabled = true;
-    toast('Not that one (−5 seconds). Hint: ' + lvl.terms[S.qTerm].h, 'bad');
-    renderHud();
-  }
-});
-
-function startReal(i) {
-  S.mode = 'real'; S.playRound = S.G.round;
-  S.P = Object.assign({}, S.P, { status: 'playing' + (i + 1) });
-  savePlayer();
-  startLevel(i);
-}
-function startLevel(i) {
-  const lvl = LEVELS[i], real = S.mode === 'real', quiz = lvl.type === 'quiz';
-  S.lvl = i; S.errors = 0; S.pen = 0; S.lives = lvl.lives; S.sel = null;
-  ['kwrap', 'tray', 'methodP', 'enun'].forEach(id => { $('#' + id).hidden = quiz; });
-  $('#quiz').hidden = !quiz;
-  if (quiz) buildQuiz(lvl); else buildLevel(lvl);
-  const now = Date.now();
-  S.startedAt = real ? S.G.startAt : now;
-  S.deadline = lvl.time ? (real ? S.G.endAt : now + lvl.time * 1000) : 0;
-  S.playing = true;
-  if (!quiz) $('#enun').open = real || window.innerWidth >= 900;
-  show('play');
-  renderHud();
-  clearInterval(S.timerId); S.timerId = setInterval(tick, 250);
-}
-const effDeadline = () => S.deadline - S.pen * 1000;
-function tick() {
-  if (!S.playing) return;
-  const lvl = LEVELS[S.lvl];
-  if (S.mode === 'real' && lvl.time && S.G.endAt && S.G.phase === 'l' + (S.lvl + 1)) S.deadline = S.G.endAt;
-  if (lvl.time && Date.now() >= effDeadline()) { endLevel(false, 'time'); return; }
-  renderHud();
+/* ---------- Game ---------- */
+function startGame() {
+  const name = $('#name').value.trim();
+  if (name.length < 2) { toast('Type your name to start.', 'bad'); $('#name').focus(); return; }
+  S.name = name; lsName(name);
+  S.lives = LIVES; S.matched = 0; S.selL = S.selR = null; S.lock = false; S.done = {}; S.lines = []; S.temp = null;
+  const L = $('#colL'), R = $('#colR'); L.textContent = ''; R.textContent = '';
+  shuffle(PAIRS.map((_, i) => i)).forEach(i => { const b = el('button', 'card w', PAIRS[i].w); b.type = 'button'; b.dataset.i = i; b.dataset.side = 'L'; L.append(b); });
+  shuffle(PAIRS.map((_, i) => i)).forEach(i => { const b = el('button', 'card d', PAIRS[i].d); b.type = 'button'; b.dataset.i = i; b.dataset.side = 'R'; R.append(b); });
+  S.startedAt = Date.now(); S.playing = true;
+  show('play'); drawLines(); renderHud();
 }
 function renderHud() {
-  const lvl = LEVELS[S.lvl], now = Date.now(), quiz = lvl.type === 'quiz';
-  $('#hLevel').textContent = lvl.name.replace('Level ', '') + ' · ' + (quiz ? 'TERMS' : 'FIFO');
-  if (lvl.time) {
-    const left = Math.max(0, Math.ceil((effDeadline() - now) / 1000));
-    $('#hTime').textContent = mmss(left); $('#hTimeLabel').textContent = 'Time left';
-    $('#hTimeBox').classList.toggle('warn', left <= 30);
-  } else {
-    $('#hTime').textContent = mmss(Math.max(0, (now - S.startedAt) / 1000)); $('#hTimeLabel').textContent = 'Time';
-    $('#hTimeBox').classList.remove('warn');
+  const lv = $('#hLives'); lv.className = 'hearts'; lv.textContent = '';
+  for (let i = 0; i < LIVES; i++) {
+    const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    s.setAttribute('viewBox', '0 0 24 24'); s.setAttribute('class', 'heart ' + (i < S.lives ? 'on' : 'off')); s.setAttribute('aria-hidden', 'true');
+    const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    p.setAttribute('d', 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z');
+    s.append(p); lv.append(s);
   }
-  const lv = $('#hLives');
-  if (lvl.lives) {
-    $('#hLivesLabel').textContent = 'Lives';
-    lv.className = 'hearts'; lv.textContent = '';
-    for (let i = 0; i < lvl.lives; i++) {
-      const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      s.setAttribute('viewBox', '0 0 24 24'); s.setAttribute('class', 'heart ' + (i < S.lives ? 'on' : 'off')); s.setAttribute('aria-hidden', 'true');
-      const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      p.setAttribute('d', 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z');
-      s.append(p); lv.append(s);
-    }
-    lv.setAttribute('aria-label', S.lives + ' lives');
+  lv.setAttribute('aria-label', S.lives + ' lives');
+  $('#hMatched').textContent = S.matched + '/' + N;
+  $('#hBar').style.width = (S.matched / N * 100) + '%';
+}
+function cardOf(side, i) { return $('#col' + side).querySelector('.card[data-i="' + i + '"]'); }
+
+function drawLines() {
+  const svg = $('#lines'), board = $('#board'); svg.textContent = '';
+  const br = board.getBoundingClientRect();
+  const add = (li, ri, color) => {
+    const a = cardOf('L', li), b = cardOf('R', ri); if (!a || !b) return;
+    const ar = a.getBoundingClientRect(), r2 = b.getBoundingClientRect();
+    const x1 = ar.right - br.left, y1 = ar.top + ar.height / 2 - br.top, x2 = r2.left - br.left, y2 = r2.top + r2.height / 2 - br.top, mx = (x1 + x2) / 2;
+    const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    p.setAttribute('d', 'M' + x1 + ' ' + y1 + ' C' + mx + ' ' + y1 + ' ' + mx + ' ' + y2 + ' ' + x2 + ' ' + y2);
+    p.setAttribute('fill', 'none'); p.setAttribute('stroke', color); p.setAttribute('stroke-width', '5'); p.setAttribute('stroke-linecap', 'round');
+    svg.append(p);
+  };
+  S.lines.forEach(l => add(l.i, l.i, COLORS[l.c][1]));
+  if (S.temp) add(S.temp.l, S.temp.r, '#b3303f');
+}
+window.addEventListener('resize', () => { if (S.playing || !$('#s-play').hidden) drawLines(); });
+if (window.ResizeObserver) new ResizeObserver(() => { if (!$('#s-play').hidden) drawLines(); }).observe($('#board'));
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (!$('#s-play').hidden) drawLines(); });
+
+function pick(side, i) {
+  if (!S.playing || S.lock || S.done[i] === true && false) return;
+  const card = cardOf(side, i);
+  if (card.classList.contains('done')) return;
+  if (side === 'L') S.selL = S.selL === i ? null : i; else S.selR = S.selR === i ? null : i;
+  document.querySelectorAll('#colL .card').forEach(c => c.classList.toggle('sel', +c.dataset.i === S.selL));
+  document.querySelectorAll('#colR .card').forEach(c => c.classList.toggle('sel', +c.dataset.i === S.selR));
+  if (S.selL !== null && S.selR !== null) evaluate();
+}
+function evaluate() {
+  const l = S.selL, r = S.selR;
+  S.selL = S.selR = null;
+  document.querySelectorAll('.card.sel').forEach(c => c.classList.remove('sel'));
+  const a = cardOf('L', l), b = cardOf('R', r);
+  if (l === r) {
+    const c = S.matched % COLORS.length; S.matched++;
+    [a, b].forEach(x => { x.classList.add('done'); x.style.background = COLORS[c][0]; });
+    S.lines.push({ i: l, c });
+    drawLines(); renderHud();
+    if (S.matched === N) finish(true);
   } else {
-    $('#hLivesLabel').textContent = 'Mistakes';
-    lv.className = ''; lv.textContent = '';
-    lv.append(el('strong', '', String(S.errors)));
+    S.lives--; S.lock = true; S.temp = { l, r };
+    [a, b].forEach(x => { x.classList.remove('bad'); void x.offsetWidth; x.classList.add('bad'); });
+    drawLines(); renderHud();
+    toast('Not a match. You lose a life.', 'bad');
+    setTimeout(() => { S.temp = null; S.lock = false; [a, b].forEach(x => x.classList.remove('bad')); drawLines(); if (S.lives <= 0) finish(false, 'lives'); }, 650);
   }
-  $('#hCellsLabel').textContent = quiz ? 'Terms' : 'Cells';
-  $('#hCells').textContent = S.filled + '/' + S.slotCount;
-  $('#hBar').style.width = (S.slotCount ? S.filled / S.slotCount * 100 : 0) + '%';
-  $('#trayLeft').textContent = 'Cells ' + S.filled + ' of ' + S.slotCount;
 }
+$('#colL').addEventListener('click', e => { const c = e.target.closest('.card'); if (c) pick('L', +c.dataset.i); });
+$('#colR').addEventListener('click', e => { const c = e.target.closest('.card'); if (c) pick('R', +c.dataset.i); });
 
-/* ---------- Chips: drag and tap ---------- */
-function select(id) {
-  S.sel = S.sel === id ? null : id;
-  S.chips.forEach(c => c.el.classList.toggle('sel', c.id === S.sel));
-}
-function slotAt(x, y) {
-  const t = document.elementFromPoint(x, y);
-  const b = t && t.closest ? t.closest('.slot') : null;
-  const s = b ? S.slots[b.dataset.key] : null;
-  return s && !s.filled ? s : null;
-}
-function clearHot() { document.querySelectorAll('.slot.hot').forEach(b => b.classList.remove('hot')); }
-
-function tryPlace(chipId, slot) {
+function finish(ok, reason) {
   if (!S.playing) return;
-  const chip = S.chips.find(c => c.id === chipId);
-  if (!chip || chip.used || slot.filled) return;
-  const lvl = LEVELS[S.lvl];
-  if (chip.v === slot.ans) {
-    slot.filled = true; chip.used = true; S.filled++; S.sel = null;
-    slot.btn.textContent = cellText(slot.k, chip.v); slot.btn.className = 'slot ok';
-    slot.btn.setAttribute('aria-label', slot.btn.getAttribute('aria-label') + ': ' + cellText(slot.k, chip.v));
-    chip.el.hidden = true;
-    renderHud();
-    if (S.filled === S.slotCount) endLevel(true);
-  } else {
-    S.errors++;
-    if (lvl.lives) S.lives--; else S.pen += 5;
-    slot.btn.classList.remove('bad'); void slot.btn.offsetWidth; slot.btn.classList.add('bad');
-    const h = lvl.lines[slot.line].h;
-    toast('That value does not go there' + (lvl.lives ? '.' : ' (−5 seconds).') + (h ? ' Hint: ' + h : ''), 'bad');
-    renderHud();
-    if (lvl.lives && S.lives <= 0) endLevel(false, 'lives');
-  }
-}
-
-let drag = null;
-const chipsBox = $('#chips'), ghost = $('#ghost');
-chipsBox.addEventListener('pointerdown', e => {
-  if (!S.playing || (e.pointerType === 'mouse' && e.button !== 0)) return;
-  const chip = e.target.closest('.chip'); if (!chip) return;
-  drag = { id: chip.dataset.id, chip, x0: e.clientX, y0: e.clientY, moved: false, off: e.pointerType === 'mouse' ? 0 : -46 };
-  try { chip.setPointerCapture(e.pointerId); } catch (_) {}
-});
-chipsBox.addEventListener('pointermove', e => {
-  if (!drag) return;
-  if (!drag.moved && Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0) > 8) {
-    drag.moved = true;
-    ghost.textContent = drag.chip.textContent; ghost.className = 'chip ghost ' + drag.chip.dataset.col; ghost.hidden = false;
-    drag.chip.classList.add('lifting');
-    if (S.sel) select(S.sel);
-  }
-  if (!drag.moved) return;
-  ghost.style.left = e.clientX + 'px'; ghost.style.top = (e.clientY + drag.off) + 'px';
-  clearHot();
-  const s = slotAt(e.clientX, e.clientY + drag.off); if (s) s.btn.classList.add('hot');
-  const wrap = $('#kwrap'), r = wrap.getBoundingClientRect();
-  if (e.clientY > r.top - 24 && e.clientY < r.bottom + 24) {
-    if (e.clientX < r.left + 44) wrap.scrollLeft -= 16; else if (e.clientX > r.right - 44) wrap.scrollLeft += 16;
-  }
-});
-function endDrag(e, drop) {
-  if (!drag) return;
-  const d = drag; drag = null;
-  ghost.hidden = true; d.chip.classList.remove('lifting'); clearHot();
-  if (!drop) return;
-  if (d.moved) { const s = slotAt(e.clientX, e.clientY + d.off); if (s) tryPlace(d.id, s); }
-  else select(d.id);
-}
-chipsBox.addEventListener('click', e => {
-  if (e.detail !== 0 || !S.playing) return;
-  const chip = e.target.closest('.chip'); if (chip) select(chip.dataset.id);
-});
-chipsBox.addEventListener('pointerup', e => endDrag(e, true));
-chipsBox.addEventListener('pointercancel', e => endDrag(e, false));
-$('#kbody').addEventListener('click', e => {
-  const b = e.target.closest('.slot'); if (!b || !S.playing) return;
-  const slot = S.slots[b.dataset.key]; if (slot.filled) return;
-  if (S.sel) tryPlace(S.sel, slot); else toast('Tap a chip first and then the cell, or drag it.');
-});
-
-/* ---------- End of level ---------- */
-async function claimPodium() {
-  const sleep = ms => new Promise(r => setTimeout(r, ms));
-  for (let p = 1; p <= 3; p++) {
-    const ref = S.db.doc('podium/p' + p);
-    for (let a = 0; a < 6; a++) {
-      try {
-        const s1 = await ref.get(); if (s1.exists && s1.data().uid) break;
-        const r = await ref.acquire({ holder: S.uid, ttlMs: 30000 });
-        if (!r.acquired) { await sleep(500); continue; }
-        const s2 = await ref.get(); if (s2.exists && s2.data().uid) break;
-        await ref.set({ uid: S.uid, name: S.P.name, t3: S.P.t3, place: p });
-        return p;
-      } catch (e) { await sleep(400); }
-    }
-  }
-  return 0;
-}
-
-function endLevel(ok, reason) {
-  if (!S.playing) return;
-  stopPlay();
-  const n = S.lvl + 1;
+  S.playing = false; clearInterval(S.timerId);
   const used = Math.max(0, Math.round((Date.now() - S.startedAt) / 1000));
-  if (S.mode === 'practice') { showPracticeResult({ ok, reason, lvl: S.lvl, used, errors: S.errors }); return; }
-  const upd = {}; upd['e' + n] = S.errors; upd['t' + n] = used;
-  if (n < NL) {
-    S.P = Object.assign({}, S.P, upd, { status: ok ? 'passed' + n : 'out' + n });
-    savePlayer(); route();
-  } else if (ok) {
-    S.claiming = true;
-    S.P = Object.assign({}, S.P, upd, { status: 'final', l3: S.lives, place: 0 });
-    claimPodium().then(p => { S.P.place = p; S.claiming = false; return savePlayer(); }).then(() => route());
-    route();
-  } else {
-    S.P = Object.assign({}, S.P, upd, { status: 'out3', l3: 0 });
-    savePlayer(); route();
-  }
-}
-
-function showPracticeResult(R) {
-  const last = R.lvl === NL - 1;
-  $('#rEyebrow').textContent = 'Practice · ' + LEVELS[R.lvl].name + ' · does not count for the game';
-  let title, text;
-  if (R.ok) { title = 'You did it!'; text = last ? 'You completed the Kardex of level 3.' : 'You completed level ' + (R.lvl + 1) + '. You can try the next level too.'; }
-  else if (R.reason === 'lives') { title = 'You ran out of lives'; text = 'You lost both lives. Try again.'; }
-  else { title = 'Time is up'; text = 'You did not finish in time. Try again.'; }
-  $('#rTitle').textContent = title; $('#rText').textContent = text;
+  const lives = Math.max(0, S.lives);
+  const score = S.matched * 100000 + lives * 10000 + (ok ? Math.max(0, 9999 - used) : 0);
+  S.last = { name: S.name, matched: S.matched, lives, used, score, ts: Date.now() };
+  $('#rTitle').textContent = ok ? 'You matched them all!' : 'You ran out of lives';
+  $('#rText').textContent = ok ? 'Great job, you connected every term with its definition.' : 'You matched ' + S.matched + ' of ' + N + '. You can play again and improve your score.';
   const st = $('#rStats'); st.textContent = '';
-  st.append(stat('Correct', S.filled + ' of ' + S.slotCount), stat('Mistakes', String(R.errors)), stat('Time', mmss(R.used)));
-  const act = $('#rActions'); act.textContent = '';
-  if (R.ok && !last) addBtn(act, 'Try level ' + (R.lvl + 2), 'primary', () => showBrief(R.lvl + 1));
-  addBtn(act, 'Repeat this level', 'ghost', () => showBrief(R.lvl));
-  addBtn(act, 'Leave practice', 'ghost', exitPractice);
-  show('result');
+  [['Matched', S.matched + '/' + N], ['Lives left', String(lives)], ['Time', mmss(used)]].forEach(([k, v]) => { const d = el('div'); d.append(el('dt', '', k), el('dd', '', v)); st.append(d); });
+  $('#rRank').textContent = '';
+  lastSig = ''; show('result');
+  saveScore();
+}
+async function saveScore() {
+  if (!S.db || !S.uid || !S.last) return;
+  try {
+    const ref = S.db.doc('scores/' + S.uid), snap = await ref.get();
+    if (!snap.exists || S.last.score > (snap.data().score || 0)) await ref.set(S.last);
+  } catch (e) { toast('Your score could not be saved. Check your connection.', 'bad'); }
 }
 
-/* ---------- Live room connection ---------- */
-async function initCaps() {
+/* ---------- Buttons ---------- */
+$('#btnStart').addEventListener('click', startGame);
+$('#name').addEventListener('keydown', e => { if (e.key === 'Enter') startGame(); });
+$('#btnAgain').addEventListener('click', () => { show('start'); });
+$('#btnPodium').addEventListener('click', () => { lastSig = ''; show('podium'); });
+$('#btnBack').addEventListener('click', () => show('start'));
+if (/reset/.test(location.hash)) $('#btnReset').hidden = false;
+let armed = false, armT = 0;
+$('#btnReset').addEventListener('click', async () => {
+  const b = $('#btnReset');
+  if (!armed) { armed = true; b.textContent = 'Sure? Tap again'; clearTimeout(armT); armT = setTimeout(() => { armed = false; b.textContent = 'Reset podium'; }, 3500); return; }
+  armed = false; b.textContent = 'Reset podium';
+  try { await Promise.all(S.scores.map(s => S.db.doc('scores/' + s.id).delete())); toast('Podium cleared.', 'good'); } catch (e) { toast('Could not reset the podium.', 'bad'); }
+});
+
+/* ---------- Connection ---------- */
+async function init() {
+  $('#name').value = lsName();
   const c = window.claude;
   if (!c || !c.use) return;
-  try { const u = await c.use('user'); if (u) { S.uid = await u.id(); S.isOwner = await u.isOwner(); } } catch (e) {}
-  try { S.dl = await c.use('downloads'); } catch (e) { S.dl = null; }
+  try { const u = await c.use('user'); if (u) S.uid = await u.id(); } catch (e) {}
   try { S.db = await c.use('db'); } catch (e) { S.db = null; }
   if (!S.db) return;
   try {
-    S.db.doc('game/state').onSnapshot(snap => {
-      S.G = snap.exists ? Object.assign({ round: 0, phase: 'lobby' }, snap.data()) : { round: 0, phase: 'lobby' };
-      onGameChange();
-    }, () => {});
+    S.db.collection('scores').onSnapshot(snap => { S.scores = snap.docs.map(d => Object.assign({ id: d.id }, d.data())); refreshPodiums(); }, () => {});
   } catch (e) {}
-  try {
-    S.db.collection('podium').onSnapshot(snap => {
-      S.podium = {}; snap.docs.forEach(d => { S.podium[d.id] = d.data(); });
-      route();
-    }, () => {});
-  } catch (e) {}
-  if (S.isOwner) {
-    try {
-      S.db.collection('ranking').onSnapshot(snap => {
-        S.players = snap.docs.map(d => Object.assign({ id: d.id }, d.data()));
-        route();
-      }, () => {});
-    } catch (e) {}
-  }
-  if (S.uid) {
-    try {
-      S.db.doc('ranking/' + S.uid).onSnapshot(snap => { S.P = snap.exists ? snap.data() : null; route(); }, () => {});
-    } catch (e) {}
-  }
 }
-
-setJoin('loading');
-Promise.race([initCaps(), new Promise(r => setTimeout(r, 5000))]).then(() => { S.ready = true; route(); });
-setInterval(route, 250);
+const note = $('#jNote');
+init().then(() => { if (!S.db) { note.hidden = false; note.textContent = 'The podium is not connected right now, but you can still play.'; } });
 })();
 </script>
 </body></html>
