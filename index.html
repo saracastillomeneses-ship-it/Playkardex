@@ -131,6 +131,8 @@ p { margin: 0; }
 .st.lobby { background: var(--butter); color: #4d3d10; }
 .empty-list { padding: 16px 18px; border-radius: 18px; background: var(--surface2); color: var(--muted); margin-top: 14px; }
 .stats.one { margin-top: 20px; }
+.board-read .card { cursor: default; pointer-events: none; font-size: 1.2rem; min-height: 72px; }
+.board-read .card.d { font-size: 1.08rem; }
 @media (max-width: 760px) { .hostgrid { grid-template-columns: minmax(0, 1fr); } }
 </style>
 </head><body>
@@ -197,6 +199,10 @@ p { margin: 0; }
           <div id="hoPodium"></div>
         </div>
       </div>
+    </div>
+    <div class="panel" id="hoBoardPanel" style="margin-top:16px" hidden>
+      <div class="rank-head"><h3>Read aloud</h3><p>Read each definition while they connect it</p></div>
+      <div class="board board-read"><div class="col" id="hoColL"></div><div class="col" id="hoColR"></div></div>
     </div>
     <div class="panel" style="margin-top:16px">
       <div class="rank-head"><h3>Players</h3><p id="hoCount"></p></div>
@@ -422,6 +428,7 @@ function route() {
   if (S.isHost && S.db) renderHost(); else renderStudent();
 }
 function onGameChange() {
+  if (S.playing && S.G.round === S.playRound && S.G.phase === 'finished') { finish(false, true); route(); return; }
   if (S.playing && S.G.round !== S.playRound) stopPlay();
   route();
 }
@@ -454,6 +461,12 @@ function renderStudent() {
     const n = roomPlayers().length;
     setWait({ key: 'in' + g.round + ':' + n, eyebrow: 'Waiting room', title: 'You are in!', text: 'Wait for the teacher to start the game. Everyone begins at the same time.', cap: n + (n === 1 ? ' player' : ' players') + ' in the room' });
     return;
+  }
+  if (g.phase === 'finished') {
+    if (S.playedRound === g.round && S.last) { showResult(S.last); return; }
+    const sc0 = S.scores.find(s => s.id === S.uid && s.round === g.round);
+    if (sc0) { S.last = sc0; S.playedRound = g.round; showResult(sc0); return; }
+    setWait({ key: 'over', eyebrow: 'Game over', title: 'The game has ended', text: 'Wait for the next round.' }); return;
   }
   if (!m) { setWait({ key: 'late', eyebrow: 'Game in progress', title: 'The game has already started', text: 'Wait for the next round and join again.' }); return; }
   if (S.playedRound === g.round && S.last) { showResult(S.last); return; }
@@ -499,7 +512,7 @@ function renderHost() {
   show('host'); buildQr();
   const pl = roomPlayers().slice().sort((a, b) => a.name.localeCompare(b.name, 'en'));
   const n = pl.length, fin = new Set(roundScores().map(s => s.id));
-  const kind = g.phase === 'lobby' ? 'lobby' : (now < g.startAt ? 'cd' : 'run');
+  const kind = g.phase === 'lobby' ? 'lobby' : g.phase === 'finished' ? 'fin' : (now < g.startAt ? 'cd' : 'run');
   const sig = kind + '|' + g.round + '|' + pl.map(p => p.id + (fin.has(p.id) ? '*' : '')).join(',') + '|' + roundScores().length;
   if (sig !== S.hostKey) {
     S.hostKey = sig;
@@ -507,16 +520,24 @@ function renderHost() {
     st.textContent = ''; ac.textContent = '';
     $('#sideQr').hidden = kind !== 'lobby';
     $('#sidePod').hidden = kind === 'lobby';
+    $('#hoBoardPanel').hidden = !(kind === 'cd' || kind === 'run');
+    if (kind === 'cd' || kind === 'run') buildHostBoard();
     if (kind === 'lobby') {
       eb.textContent = 'Waiting room'; ti.textContent = 'When everyone is in, start';
       tx.textContent = 'Show this code on the projector. Everyone scans it, types their name and waits here.';
       st.append(stat('Players in the room', String(n)));
       const b = addBtn(ac, 'Start for everyone', 'primary big', startRound); b.disabled = n === 0;
+    } else if (kind === 'fin') {
+      eb.textContent = 'Game over'; ti.textContent = 'The podium';
+      tx.textContent = 'Congratulations to the top 3 players!';
+      st.append(stat('Players', String(n)), stat('Finished', fin.size + ' of ' + n));
+      addBtn(ac, 'New round', 'primary big', newRound, true);
+      renderPodium($('#hoPodium'), true);
     } else {
       eb.textContent = 'Word Match'; ti.textContent = kind === 'cd' ? 'Everyone starts together in…' : 'The game is live';
       tx.textContent = kind === 'cd' ? 'The board appears on every screen at the same time.' : 'Read the definitions aloud while they play. The podium updates as players finish.';
       st.append(stat('Players', String(n)), stat('Finished', fin.size + ' of ' + n));
-      addBtn(ac, 'New round', 'ghost', newRound, true);
+      if (kind === 'run') addBtn(ac, 'Finish game', 'primary big', finishGame, true);
       renderPodium($('#hoPodium'), false);
     }
     $('#hoCount').textContent = n + (n === 1 ? ' player' : ' players');
@@ -526,6 +547,15 @@ function renderHost() {
   }
   const big = $('#hoBig');
   if (kind === 'cd') { big.hidden = false; big.textContent = String(Math.max(1, Math.ceil((g.startAt - now) / 1000))); } else big.hidden = true;
+}
+
+function finishGame() { hostWrite(() => gameRef().update({ phase: 'finished', ts: Date.now() })); }
+function buildHostBoard() {
+  if (S.hostBoard === S.G.round) return;
+  S.hostBoard = S.G.round;
+  const L = $('#hoColL'), R = $('#hoColR'); L.textContent = ''; R.textContent = '';
+  shuffle(PAIRS.map((_, i) => i)).forEach(i => L.append(el('div', 'card w', PAIRS[i].w)));
+  shuffle(PAIRS.map((_, i) => i)).forEach(i => R.append(el('div', 'card d', PAIRS[i].d)));
 }
 
 /* ---------- Game ---------- */
@@ -602,7 +632,7 @@ function evaluate() {
 $('#colL').addEventListener('click', e => { const c = e.target.closest('.card'); if (c) pick('L', +c.dataset.i); });
 $('#colR').addEventListener('click', e => { const c = e.target.closest('.card'); if (c) pick('R', +c.dataset.i); });
 
-function finish(ok) {
+function finish(ok, ended) {
   if (!S.playing) return;
   S.playing = false;
   const used = Math.max(0, Math.round((Date.now() - S.startedAt) / 1000));
@@ -618,7 +648,7 @@ function showResult(r) {
   const key = r.id + ':' + r.round + ':' + r.score;
   if (S.resultKey !== key) {
     S.resultKey = key;
-    $('#rTitle').textContent = r.matched === N ? 'You matched them all!' : 'You ran out of lives';
+    $('#rTitle').textContent = r.matched === N ? 'You matched them all!' : (r.lives > 0 ? 'The game has ended' : 'You ran out of lives');
     $('#rText').textContent = r.matched === N ? 'Great job, you connected every term with its definition.' : 'You matched ' + r.matched + ' of ' + N + '. Wait for the next round.';
     const st = $('#rStats'); st.textContent = '';
     st.append(stat('Matched', r.matched + '/' + N), stat('Lives left', String(r.lives)), stat('Time', mmss(r.used)));
